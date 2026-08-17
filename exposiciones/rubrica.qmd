@@ -1,0 +1,38 @@
+---
+title: "Rúbrica de exposición"
+subtitle: "IEE2A5 — Máquinas Eléctricas"
+semestre: "Segundo semestre 2026"
+format:
+  html: default
+  pdf: default
+---
+
+Se evalúan cuatro aspectos sobre **2 puntos en total**, que se suman a la práctica calificada
+de esa unidad sin pasar de 20.
+
+| Aspecto | 0 | 0.25 | 0.5 |
+|---|---|---|---|
+| **Resolución correcta** | El procedimiento tiene errores conceptuales | El procedimiento es correcto pero hay errores de cálculo o de unidades | El procedimiento y el resultado son correctos, con unidades |
+| **Justificación** | Solo enuncia el resultado | Explica los pasos pero no por qué eligió el método | Explica por qué ese método y qué hipótesis asumió |
+| **Claridad** | No se entiende sin preguntar | Se entiende con esfuerzo; notación descuidada | Va al grano, notación consistente, usa la pizarra con orden |
+| **Respuesta a preguntas** | No responde o responde otra cosa | Responde parcialmente | Responde con solvencia y reconoce lo que no sabe |
+
+: Cada aspecto vale hasta 0.5 puntos. {tbl-colwidths="[22,26,26,26]"}
+
+## Cómo se aplica
+
+- Se califica **en el momento**, al terminar la exposición. No hay corrección diferida.
+- **Equivocarse no penaliza** si el razonamiento está bien planteado y el alumno lo reconoce:
+  el objetivo es que expliquen, no que reciten.
+- La nota se registra en la práctica calificada de esa unidad, no en el promedio.
+
+::: {.content-visible when-format="html"}
+## Nota para el equipo docente
+
+El aspecto que más discrimina es **Justificación**: distingue al alumno que resolvió el
+ejercicio del que copió el resultado. Si hay que recortar tiempo, recorta preguntas, no ese
+criterio.
+
+Ante la duda entre dos niveles, sube. La exposición es un incentivo, no un filtro: penalizar
+con dureza aquí desalienta el voluntariado y vacía el mecanismo.
+:::

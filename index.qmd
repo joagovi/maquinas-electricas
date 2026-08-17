@@ -1,0 +1,37 @@
+---
+title: "Máquinas Eléctricas"
+subtitle: "IEE2A5 — Pontificia Universidad Católica del Perú"
+---
+
+Material del curso. Todo lo que está aquí se genera desde un único repositorio, así que el
+PDF que descargas y lo que lees en esta página **siempre dicen lo mismo**.
+
+## Empieza por aquí
+
+| | |
+|---|---|
+| [Calendario](gestion/calendario.qmd) | Qué toca cada sesión y cuándo son las evaluaciones |
+| [Equipo y evaluación](gestion/responsables.qmd) | Quién dicta qué, y cómo se calcula la nota |
+| [Exposiciones en clase](exposiciones/reglas.qmd) | Cómo funcionan, cómo se sortean y cuánto suman |
+
+## Material
+
+- [Prácticas dirigidas](dirigidas/pd1-femm/index.qmd)
+- Laboratorios y proyecto
+- Teoría por capítulos
+
+::: {.callout-tip}
+## ¿Tienes una duda sobre plazos o entregas?
+
+Antes de escribir por Discord, revisa el [calendario](gestion/calendario.qmd) y las
+[reglas de exposición](exposiciones/reglas.qmd). Están siempre actualizados: se regeneran
+solos cada vez que cambia algo del curso.
+:::
+
+::: {.callout-important}
+## Uso de inteligencia artificial
+
+El sílabo exige **declarar y citar** el uso de IA generativa en los trabajos que el docente
+indique, con justificación. El docente puede pedir el reporte de los prompts utilizados como
+anexo. No declararlo se considera falta a la ética académica.
+:::

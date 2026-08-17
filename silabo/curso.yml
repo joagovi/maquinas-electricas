@@ -70,14 +70,20 @@ evaluacion:
     modo: por_evaluacion
 
 # -----------------------------------------------------------------------------
-# CAPITULOS   -> se llenan desde _entrada/silabo-2026-2/           # PENDIENTE
+# CAPITULOS   -> confirmar contra _entrada/silabo-2026-2/          # VERIFICAR
 # -----------------------------------------------------------------------------
-# Formato de cada entrada:
-#   - id: cap1
-#     titulo: "Caracteristicas generales"
-#     horas: 3
-#     carpeta: teoria/cap1-generalidades
-capitulos: []
+# Reconstruido de la secuencia REAL dictada en 2026-1, a partir de los nombres
+# de las diapositivas y del documento "Enlaces de Zoom" (grabaciones por semana).
+# Es la mejor referencia disponible hasta que llegue el silabo 2026-2.
+capitulos:
+  - {id: cap1, titulo: "Introduccion y circuitos magneticos",        semana_2026_1: 1, carpeta: teoria/cap1-circuitos-magneticos}
+  - {id: cap2, titulo: "Circuitos magneticos en AC",                 semana_2026_1: 3, carpeta: teoria/cap2-circuitos-ac}
+  - {id: cap3, titulo: "Generador sincrono y sus ensayos",           semana_2026_1: 4, carpeta: teoria/cap3-generador-sincrono}
+  - {id: cap4, titulo: "Motor sincrono: principios y arranque",      semana_2026_1: 6, carpeta: teoria/cap4-motor-sincrono}
+  - {id: cap5, titulo: "Motor de induccion",                         semana_2026_1: 7, carpeta: teoria/cap5-motor-induccion}
+  - {id: cap6, titulo: "Motor BLDC (no entra al examen parcial)",    semana_2026_1: 8, carpeta: teoria/cap6-bldc}
+
+# La semana 2 fue de recuperacion en 2026-1 (hay material marcado "PENDIENTE").
 
 # -----------------------------------------------------------------------------
 # DIRIGIDAS  (alimentan Pa)
@@ -91,21 +97,70 @@ dirigidas:
 # -----------------------------------------------------------------------------
 # LABORATORIOS  (Pb1..Pb6). El proyecto es parte del laboratorio.
 # -----------------------------------------------------------------------------
+# Fuente: "ME 2026-1 Normas Reglamentarias ME.docx" (carpeta de Drive de alumnos).
+# Todo lo de esta seccion es del ciclo 2026-1 y hay que confirmarlo para 2026-2.
 laboratorios:
-  - {id: lab1, evaluacion: Pb1, peso: 5,  carpeta: laboratorios/lab1}
-  - {id: lab2, evaluacion: Pb2, peso: 6,  carpeta: laboratorios/lab2}
-  - {id: lab3, evaluacion: Pb3, peso: 4,  carpeta: laboratorios/lab3}
-  - {id: lab4, evaluacion: Pb4, peso: 6,  carpeta: laboratorios/lab4}
-  - {id: lab5, evaluacion: Pb5, peso: 4,  carpeta: laboratorios/lab5}
-  - {id: lab6, evaluacion: Pb6, peso: 10, carpeta: laboratorios/lab6}
+  grupos: {min: 2, max: 3, mismo_grupo_que_proyecto: true}
+  introductorio:
+    id: lab0
+    calificado: false
+    contenido: "Revision de LVSIM e inicio de la investigacion de proyectos"
+    penalidad_inasistencia: {puntos: 2, se_descuenta_en: lab1}
+  asistencia_obligatoria: true
+  hay_recuperacion: false
+
+  # Reparto de los 20 puntos en los labs 1, 2, 4 y 5.
+  # Las actividades no marcadas como individuales son grupales.
+  rubrica_labs_1_2_4_5:
+    - {concepto: "Avance del proyecto",                          puntos: 2, pct: 10, individual: false}
+    - {concepto: "Prueba rendida en el lab 3 o 6",               puntos: 8, pct: 40, individual: true}
+    - {concepto: "Desempeno en el laboratorio",                  puntos: 2, pct: 10, individual: true}
+    - {concepto: "Reporte: tablas, curvas de ajuste, calculos",  puntos: 3, pct: 15, individual: false}
+    - {concepto: "Video: organizacion y expresion oral",         puntos: 2, pct: 10, individual: true}
+    - {concepto: "Video: sustento teorico, analisis, conclusiones", puntos: 3, pct: 15, individual: false}
+
+  # La nota de la prueba del lab 3 se reparte entre los labs 1 y 2;
+  # la del lab 6, entre los labs 4 y 5.
+  pruebas:
+    - {rendida_en: lab3, tipo: parcial, se_reparte_en: [lab1, lab2]}
+    - {rendida_en: lab6, tipo: final,   se_reparte_en: [lab4, lab5]}
+
+  video:
+    duracion_max_min: 9
+    entrega: "enlace por Paideia, accesible para cualquier profesor o JP"
+    penalidad_enlace_inaccesible: "nota 0 en el apartado"
+    debe_incluir: ["nombre", "codigo", "tema del laboratorio", "nombre del JP", "bibliografia APA"]
+    prohibido: ["logo de la universidad", "nombre de la universidad"]
+
+  software: ["LVSim de FESTO", "MATLAB"]
+
+  sesiones:
+    - {id: lab1, evaluacion: Pb1, peso: 5,  tema: "Generador sincrono",              carpeta: laboratorios/lab1}
+    - {id: lab2, evaluacion: Pb2, peso: 6,  tema: "Maquinas asincronas",             carpeta: laboratorios/lab2}
+    - {id: lab3, evaluacion: Pb3, peso: 4,  tema: "Presentacion parcial + prueba",   carpeta: laboratorios/lab3}
+    - {id: lab4, evaluacion: Pb4, peso: 6,  tema: "Maquinas DC",                     carpeta: laboratorios/lab4}
+    - {id: lab5, evaluacion: Pb5, peso: 4,  tema: "Metodos de arranque",             carpeta: laboratorios/lab5}
+    - {id: lab6, evaluacion: Pb6, peso: 10, tema: "Presentacion final + prueba",     carpeta: laboratorios/lab6}
 
 proyecto:
   descripcion: "Diseno y construccion de un motor o generador"
   parte_de: laboratorio
   carpeta: laboratorios/proyecto
-  hitos:                                                          # VERIFICAR
-    - {id: parcial, informe: true, presentacion: true, semana: null}
-    - {id: final,   informe: true, presentacion: true, semana: null}
+  # OJO: los avances SI estan calificados (2 puntos, el 10% de cada lab).
+  # No son entregas informales: tienen puntaje y fecha limite institucional.
+  # Las fechas son las de 2026-1 y sirven de plantilla.            # VERIFICAR
+  avances:
+    - {lab: 1, entrega: "Metodologia, cronograma de hitos y analisis del proyecto",             fecha_2026_1: 2026-04-10, puntos: 2}
+    - {lab: 2, entrega: "Marco teorico, diseno preliminar, analisis, planteamiento de pruebas", fecha_2026_1: 2026-04-24, puntos: 2}
+    - {lab: 3, entrega: "Presentacion parcial e informe parcial",                               fecha_2026_1: 2026-05-15, puntos: null}
+    - {lab: 4, entrega: "Evidencia de construccion y ensamblaje",                               fecha_2026_1: 2026-06-05, puntos: 2}
+    - {lab: 5, entrega: "Pruebas y resultados",                                                 fecha_2026_1: 2026-06-19, puntos: 2}
+    - {lab: 6, entrega: "Presentacion final y evaluacion",                                      fecha_2026_1: 2026-07-03, puntos: null}
+  informes:
+    - {lab: 1, fecha_2026_1: 2026-04-30, puntos: 8}
+    - {lab: 2, fecha_2026_1: 2026-05-14, puntos: 8}
+    - {lab: 4, fecha_2026_1: 2026-06-18, puntos: 8}
+    - {lab: 5, fecha_2026_1: 2026-07-02, puntos: 8}
 
 # -----------------------------------------------------------------------------
 # EXPOSICIONES EN CLASE  ("vibequest")
