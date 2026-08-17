@@ -35,7 +35,26 @@ profesores:
     iniciales: MAR
     dicta: "desde el parcial"
 
-jefes_practica: []                                                # PENDIENTE
+# -----------------------------------------------------------------------------
+# HORARIOS
+# -----------------------------------------------------------------------------
+# El curso se dicta en mas de un horario y cada uno es un grupo de clase aparte:
+# el sorteo de exposiciones se hace POR HORARIO, no sobre el total de alumnos.
+#
+# Los alumnos NO van aqui. Deja el Excel de matriculados en _entrada/listas/ y
+# ejecuta:   .venv/bin/python scripts/importar_alumnos.py
+# Eso escribe silabo/alumnos.yml, que esta fuera de git por privacidad.
+#
+# Los horarios de abajo se dedujeron de la carpeta docente 2026-1.  # VERIFICAR
+horarios:
+  - id: H1
+    nombre: "Lunes 2:00 - 5:00 pm"                                 # VERIFICAR
+    profesor: JGV                                                  # VERIFICAR
+    jefes_practica: []                                             # PENDIENTE
+  - id: H2
+    nombre: "Lunes 5:00 - 8:00 pm"                                 # VERIFICAR
+    profesor: JGV                                                  # VERIFICAR
+    jefes_practica: []                                             # PENDIENTE
 
 # -----------------------------------------------------------------------------
 # EVALUACION  (silabo 2026-1)                                     # VERIFICAR

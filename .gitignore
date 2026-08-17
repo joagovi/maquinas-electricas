@@ -11,6 +11,12 @@ _book/
 notebooklm/*.pdf
 notebooklm/*.zip
 
+# --- Datos personales de alumnos ---------------------------------------------
+# La lista de matriculados y el sorteo con nombres NO se publican en un sitio
+# web abierto. El sorteo se entrega por Paideia, que exige login.
+silabo/alumnos.yml
+exposiciones/sorteo.md
+
 # --- Material que NUNCA debe entrar a git ------------------------------------
 # Informes y entregas de alumnos: viven en Drive, aqui solo se enlazan.
 **/informes-alumnos/

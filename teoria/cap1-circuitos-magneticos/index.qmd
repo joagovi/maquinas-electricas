@@ -1,0 +1,194 @@
+---
+title: "Sesión 1 — Circuitos magnéticos"
+subtitle: "Ley de Gauss magnética y ley de Ampère"
+curso: "MÁQUINAS ELÉCTRICAS"
+semestre: "Segundo semestre 2026"
+format:
+  html:
+    toc: true
+---
+
+Todo lo de este curso —generadores, motores síncronos, de inducción, de continua— se apoya en
+lo mismo: **una corriente crea un campo magnético, y ese campo se cierra por un camino de
+hierro con un entrehierro**. Hoy montamos esa herramienta.
+
+## Las dos leyes que necesitamos
+
+### Ley de Gauss magnética: el flujo no se pierde
+
+$$\oint_S \vec{B} \cdot d\vec{S} = 0$$
+
+No existen monopolos: todo lo que entra a una superficie cerrada, sale. En un núcleo sin
+ramificaciones esto significa algo muy práctico:
+
+$$\Phi = \text{constante en todo el circuito}$$
+
+El mismo flujo atraviesa el hierro y el entrehierro. Si el área cambia, cambia $B$, pero
+$\Phi$ no.
+
+### Ley de Ampère: quién crea el campo
+
+$$\oint_C \vec{H} \cdot d\vec{l} = N I$$
+
+Recorriendo el circuito por dentro del hierro, con $H$ uniforme en cada tramo:
+
+$$H_{Fe}\, l_{Fe} + H_g\, l_g = N I$$
+
+El producto $NI$ se llama **fuerza magnetomotriz** (fmm) y se mide en amperio-vuelta.
+
+### La analogía que lo hace fácil
+
+Con $B = \mu H$ y $\Phi = BA$, la ley de Ampère se reescribe como una ley de Ohm:
+
+$$\mathcal{F} = \Phi \cdot \mathcal{R}, \qquad \mathcal{R} = \frac{l}{\mu A}$$
+
+| Circuito eléctrico | Circuito magnético |
+|---|---|
+| Tensión $V$ | Fuerza magnetomotriz $\mathcal{F} = NI$ |
+| Corriente $I$ | Flujo $\Phi$ |
+| Resistencia $R = \dfrac{l}{\sigma A}$ | Reluctancia $\mathcal{R} = \dfrac{l}{\mu A}$ |
+| Resistencias en serie se suman | Reluctancias en serie se suman |
+
+::: {.callout-warning}
+## La analogía tiene un límite
+
+En un circuito eléctrico, $\sigma$ es constante. En uno magnético, $\mu$ **depende de $B$**:
+cuando el hierro se satura, $\mu$ se desploma y la reluctancia se dispara. Por eso el circuito
+magnético es no lineal y el eléctrico no. Volveremos sobre esto al final.
+:::
+
+## Manos a la obra
+
+Un núcleo de hierro con $N$ vueltas y un entrehierro de longitud $l_g$. Mueve los controles y
+observa qué pasa.
+
+```{ojs}
+//| echo: false
+//| panel: input
+viewof N  = Inputs.range([100, 2000], {value: 1000, step: 50,  label: "N (vueltas)"})
+viewof I  = Inputs.range([0.1, 5],    {value: 1.6,  step: 0.1, label: "I (A)"})
+viewof mur = Inputs.range([500, 6000],{value: 3000, step: 100, label: "μᵣ del núcleo"})
+viewof lFe = Inputs.range([0.2, 1.5], {value: 0.6,  step: 0.05,label: "Longitud media del hierro (m)"})
+viewof lg  = Inputs.range([0, 5],     {value: 1.0,  step: 0.1, label: "Entrehierro (mm)"})
+viewof lado = Inputs.range([2, 15],   {value: 10,   step: 0.5, label: "Lado de la sección (cm)"})
+```
+
+```{ojs}
+//| echo: false
+mu0 = 4 * Math.PI * 1e-7
+
+A    = Math.pow(lado / 100, 2)      // seccion en m²
+lg_m = lg / 1000                     // entrehierro en m
+
+R_Fe = lFe / (mu0 * mur * A)
+R_g  = lg_m / (mu0 * A)
+R_t  = R_Fe + R_g
+
+fmm  = N * I
+flujo = fmm / R_t                    // Wb
+B     = flujo / A                    // T  (misma seccion => mismo B)
+H_Fe  = B / (mu0 * mur)
+H_g   = B / mu0
+
+caida_Fe = H_Fe * lFe
+caida_g  = H_g * lg_m
+pct_g    = 100 * R_g / R_t
+```
+
+```{ojs}
+//| echo: false
+html`<table style="width:100%; border-collapse:collapse">
+<tr style="border-bottom:2px solid #333">
+  <th align="left">Magnitud</th><th align="right">Hierro</th><th align="right">Entrehierro</th>
+</tr>
+<tr><td>Reluctancia (A·v/Wb)</td>
+    <td align="right">${d3.format(".3~s")(R_Fe)}</td>
+    <td align="right"><b>${d3.format(".3~s")(R_g)}</b></td></tr>
+<tr><td>Intensidad de campo H (A/m)</td>
+    <td align="right">${d3.format(".4~s")(H_Fe)}</td>
+    <td align="right"><b>${d3.format(".4~s")(H_g)}</b></td></tr>
+<tr><td>Caída de fmm H·l (A·v)</td>
+    <td align="right">${d3.format(".4~s")(caida_Fe)}</td>
+    <td align="right"><b>${d3.format(".4~s")(caida_g)}</b></td></tr>
+<tr style="border-top:2px solid #333">
+  <td><b>fmm total NI</b></td>
+  <td align="right" colspan="2"><b>${d3.format(".4~s")(fmm)} A·v</b></td></tr>
+<tr><td><b>Flujo Φ</b> (igual en todo el circuito)</td>
+    <td align="right" colspan="2"><b>${d3.format(".4~r")(flujo*1000)} mWb</b></td></tr>
+<tr><td><b>Densidad de flujo B</b></td>
+    <td align="right" colspan="2"><b>${d3.format(".3~r")(B)} T</b> ${B > 1.8
+      ? '<br><span style="color:#c0392b">⚠ <b>Este número no es real.</b> Por encima de ~1.8 T el hierro se satura, μᵣ se desploma y el modelo lineal deja de valer. En un núcleo real B no pasaría de unos 2 T: la corriente necesaria se dispararía en vez de subir B.</span>'
+      : ''}</td></tr>
+</table>`
+```
+
+```{ojs}
+//| echo: false
+Plot.plot({
+  title: `El entrehierro se lleva el ${d3.format(".1f")(pct_g)}% de la reluctancia total`,
+  height: 130, marginLeft: 90,
+  x: {label: "Reluctancia (A·v/Wb)", grid: true},
+  color: {legend: false},
+  marks: [
+    Plot.barX(
+      [{parte: "Hierro", valor: R_Fe}, {parte: "Entrehierro", valor: R_g}],
+      {y: "parte", x: "valor", fill: d => d.parte === "Entrehierro" ? "#c0392b" : "#7f8c8d"}
+    ),
+    Plot.ruleX([0])
+  ]
+})
+```
+
+::: {.callout-important}
+## Lo que hay que llevarse de aquí
+
+Pon el entrehierro en **0 mm** y súbelo poco a poco. Con 1 mm de aire frente a 60 cm de
+hierro —**600 veces más corto**— el entrehierro ya se lleva la mayor parte de la reluctancia.
+
+La razón está en $\mu$: el hierro tiene $\mu_r \approx 3000$, el aire tiene 1. Ese factor de
+3000 pesa mucho más que la diferencia de longitudes.
+
+**Consecuencia para el resto del curso:** en una máquina real, el entrehierro es lo que fija
+cuánta corriente de excitación hace falta. Diseñar una máquina es, en buena medida, pelear
+con ese milímetro de aire.
+
+**Y una trampa a propósito:** con el entrehierro exactamente en 0, la calculadora dice más de
+10 T. Ningún hierro llega a eso. Ahí el modelo lineal se rompe, y esa ruptura es justo lo que
+estudiaremos con la curva de saturación.
+:::
+
+## Preguntas para discutir en clase
+
+1. Sube $\mu_r$ de 500 a 6000 con el entrehierro en 0. Ahora repítelo con el entrehierro en
+   1 mm. ¿Por qué la calidad del hierro casi deja de importar?
+2. Con $N I$ fijo, ¿qué le pasa a $B$ si duplicas la sección? ¿Y al flujo?
+3. Si $B$ pasa de 1.8 T el núcleo se satura y $\mu_r$ cae. ¿Qué habría que corregir en este
+   modelo para que sea creíble por encima de ese valor?
+4. ¿Por qué el flujo es el mismo en el hierro y en el aire, pero $H$ no?
+
+## Ejercicio para la próxima sesión
+
+::: {.callout-note}
+Este es el ejercicio que se expone al inicio de la próxima clase (ver las
+[reglas de exposición](../../exposiciones/reglas.qmd)).
+
+Un circuito magnético con **dos bobinas y dos entrehierros** $g_1 = g_2 = 0.1$ cm. Todas las
+ramas tienen 10 cm de espesor y 10 cm de profundidad. La bobina $F_1$ tiene 1000 vueltas y
+conduce 1.6 A. La permeabilidad relativa del núcleo es 3000 y se desprecian los flujos
+dispersos.
+
+a) Obtén la fuerza magnetomotriz que debe suministrar $F_2$ para producir un flujo de 15 mWb
+   hacia abajo en el entrehierro. **Dibuja la analogía eléctrica del circuito.**
+b) Calcula la corriente por $F_2$ si tiene 1000 vueltas, e indica $B$ y $H$ en el entrehierro
+   y en cada rama.
+:::
+
+## Para la casa
+
+- **Sanity check con la calculadora de arriba**: antes de resolver el ejercicio a mano,
+  estima el orden de magnitud moviendo los controles. Si tu resultado analítico se aleja
+  mucho, revisa antes de entregar.
+- En la [primera práctica dirigida](../../dirigidas/pd1-femm/index.qmd) resolveremos este
+  mismo tipo de problema **en FEMM**, que en vez de suponer $H$ uniforme por tramo resuelve el
+  campo en todo el dominio. Compararás ambos resultados: ahí se ve cuánto error mete la
+  hipótesis de circuito magnético.
