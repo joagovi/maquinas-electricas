@@ -1,0 +1,35 @@
+---
+title: "Equipo del curso"
+subtitle: "IEE2A5 — Maquinas Electricas — 2026-2"
+---
+
+::: {.callout-note appearance="minimal"}
+Generado automáticamente desde `silabo/curso.yml`. **No editar a mano** — se sobreescribe en cada publicación. Para cambiar algo, edita `curso.yml`.
+:::
+
+## Profesores
+
+| Nombre | Dicta |
+|--------|-------|
+| Joaquin Gonzalez Villarreal | hasta el parcial |
+| Marco Antonio Romero Jimenez | desde el parcial |
+
+## Jefes de práctica
+
+::: {.callout-warning}
+## Falta información
+
+Los jefes de práctica todavía no están asignados.
+
+**Qué hacer:** deja el archivo en `silabo/curso.yml (clave `jefes_practica`)` y vuelve a generar.
+:::
+
+## Sistema de evaluación
+
+| Código | Descripción | Cantidad | Peso |
+|--------|-------------|---------:|------|
+| `Pa` | Practica tipo A (4 sincronas presenciales + 4 dirigidas) | 4 | 15 |
+| `Pb` | Practica tipo B (6 laboratorios calificados; el proyecto vive aqui) | 6 | 5, 6, 4, 6, 4, 10 |
+| `Ex` | Examenes | 2 | 20, 30 |
+
+: Los pesos son los del sílabo oficial y no se modifican desde este repositorio.

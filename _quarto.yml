@@ -43,6 +43,10 @@ format:
     papersize: a4
     lang: es
     fontsize: 11pt
+    # Liberation Sans es metricamente compatible con Arial: reproduce el aspecto
+    # de los documentos PUCP en Word en vez del serif clasico de LaTeX.
+    mainfont: "Liberation Sans"
+    monofont: "Liberation Mono"
     geometry:
       - top=2.5cm
       - bottom=2.5cm

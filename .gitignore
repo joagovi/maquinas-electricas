@@ -26,6 +26,13 @@ notebooklm/*.zip
 *.iso
 
 # --- LaTeX -------------------------------------------------------------------
+# .tex intermedios que Quarto deja junto al .qmd. Las plantillas de _templates/
+# SI se versionan (son fuente, no salida).
+*.tex
+!_templates/*.tex
+*.pdf
+!legacy/**/*.pdf
+!silabo/**/*.pdf
 *.aux
 *.log
 *.out

@@ -7,7 +7,7 @@
 % Pie de pagina en todas las hojas: "Pagina N de M"
 \pagestyle{fancy}
 \fancyhf{}
-\fancyfoot[C]{\small P\'agina \thepage\ de \pageref{LastPage}}
+\fancyfoot[C]{\small P\'agina \thepage\ de \pageref*{LastPage}}
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
 
@@ -15,7 +15,7 @@
 \fancypagestyle{fciprimera}{%
   \fancyhf{}%
   \fancyhead[R]{\small FCI-Adm-4.01}%
-  \fancyfoot[C]{\small P\'agina \thepage\ de \pageref{LastPage}}%
+  \fancyfoot[C]{\small P\'agina \thepage\ de \pageref*{LastPage}}%
   \renewcommand{\headrulewidth}{0pt}%
   \renewcommand{\footrulewidth}{0pt}%
 }
@@ -23,3 +23,10 @@
 % Los enunciados usan "Pregunta N (X puntos)" como seccion: sin numeracion
 % automatica, el puntaje va escrito en el propio titulo.
 \setcounter{secnumdepth}{0}
+
+% Word no parte palabras con guion al final de linea y los documentos PUCP
+% tampoco. Desactivamos la particion y relajamos el ajuste de linea para que
+% LaTeX no proteste por renglones sueltos.
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+\sloppy

@@ -1,0 +1,50 @@
+---
+title: "Exposiciones en clase"
+subtitle: "IEE2A5 — Maquinas Electricas — 2026-2"
+---
+
+::: {.callout-note appearance="minimal"}
+Generado automáticamente desde `silabo/curso.yml`. **No editar a mano** — se sobreescribe en cada publicación. Para cambiar algo, edita `curso.yml`.
+:::
+
+
+## En qué consiste
+
+Cada sesión de clase, **5 alumnos** exponen durante **5 minutos** cada uno, más
+**5 minutos** de preguntas al final. En total, media hora por sesión.
+
+Se expone **la solución al ejercicio dejado en la sesión anterior**. No hay que preparar
+material nuevo: es el ejercicio que ya te tocaba resolver.
+
+Las exposiciones empiezan en la **sesión 2** (la primera sesión no tiene ejercicio
+previo que exponer).
+
+## Quién expone
+
+- **Por sorteo.** El sorteo se hace con una semilla fija y se publica el primer día. Cualquiera
+  puede volver a correrlo y obtener exactamente el mismo resultado: no se acomoda a nadie.
+- **Por voluntad.** Si quieres exponer sin que te toque, avisa con **24 horas** de
+  anticipación. Si nadie avisó, el turno se abre el mismo día a quien se anime.
+
+## Qué pasa si no expones
+
+**Nada.** No hay penalidad por no exponer cuando te toca; tu turno se abre a voluntarios. La
+exposición **solo suma**.
+
+## Puntaje
+
+Exponer da hasta **+2 puntos** sobre la **práctica calificada de esa unidad**, sin pasar
+de 20.
+
+::: {.callout-important}
+El puntaje se aplica a una práctica concreta, **no al promedio**: el campus virtual calcula el
+promedio automáticamente y no admite ajustes.
+:::
+
+## Cómo se califica
+
+Ver la [rúbrica de exposición](rubrica.qmd).
+
+## Sorteo
+
+Ver el [sorteo publicado](sorteo.md).

@@ -1,0 +1,16 @@
+---
+title: "Calendario del ciclo"
+subtitle: "IEE2A5 — Maquinas Electricas — 2026-2"
+---
+
+::: {.callout-note appearance="minimal"}
+Generado automáticamente desde `silabo/curso.yml`. **No editar a mano** — se sobreescribe en cada publicación. Para cambiar algo, edita `curso.yml`.
+:::
+
+::: {.callout-warning}
+## Falta información
+
+El calendario del ciclo todavía no está cargado.
+
+**Qué hacer:** deja el archivo en `_entrada/fotos/ (foto del calendario)` y vuelve a generar.
+:::

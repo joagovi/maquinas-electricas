@@ -1,0 +1,83 @@
+name: Publicar sitio y PDFs
+
+# Se dispara solo. Tu no compilas nada a mano: editas un .qmd, haces push, y
+# unos minutos despues el sitio y los PDF estan actualizados.
+on:
+  push:
+    branches: [main]
+  pull_request:          # en un PR NO publica: solo compila y adjunta el preview
+  workflow_dispatch:     # boton manual en la pestana Actions
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  construir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          tinytex: true
+
+      # TinyTeX es minimo y NO trae el soporte de espanol de babel. Sin esto el
+      # PDF falla con "Unknown option 'spanish'". Lo aprendimos en local.
+      - name: Instalar paquetes LaTeX de espanol
+        run: tlmgr install babel-spanish hyphen-spanish
+
+      - name: Instalar fuentes Arial-compatibles
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq fonts-liberation
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Dependencias de Python
+        run: pip install --quiet pyyaml
+
+      # Regenera calendario, responsables y reglas desde curso.yml antes de
+      # renderizar, para que el sitio nunca quede desfasado del silabo.
+      - name: Generar documentos derivados
+        run: python3 scripts/generar.py
+
+      # Falla ruidosamente si los turnos de exposicion no alcanzan para todos
+      # los alumnos. Mejor enterarse aqui que en la semana 6.
+      - name: Verificar sorteo de exposiciones
+        run: python3 exposiciones/sorteo.py --check || echo "::warning::El sorteo aun no puede correr (faltan datos en curso.yml)"
+
+      - name: Renderizar
+        run: quarto render
+
+      - name: Subir artefacto del sitio
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      # En un pull request no se publica: se adjuntan los PDF para que puedas
+      # revisar el resultado antes de aprobar el cambio.
+      - name: Adjuntar PDFs de preview (solo en PR)
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: pdfs-preview
+          path: _site/**/*.pdf
+          if-no-files-found: ignore
+
+  publicar:
+    needs: construir
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.despliegue.outputs.page_url }}
+    steps:
+      - id: despliegue
+        uses: actions/deploy-pages@v4

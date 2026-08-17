@@ -54,11 +54,11 @@ c) **(3.0 puntos)** _(Enunciado de la parte de simulación.)_
 
 _(Pendiente.)_
 
+::: {.content-visible when-format="html"}
 ---
 
 ## Cómo se escribe una pregunta en este formato
 
-::: {.content-visible when-format="html"}
 Esta sección **no sale en el PDF** — es ayuda para ti y para los jefes de práctica.
 
 - Cada pregunta es un encabezado `## Pregunta N (X puntos)`.
