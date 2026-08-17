@@ -1,0 +1,146 @@
+# =============================================================================
+# FUENTE UNICA DE VERDAD DEL CURSO
+# =============================================================================
+# De este archivo se generan: el calendario, la pagina de responsables, las
+# reglas de exposicion, el sorteo y los puntajes de las rubricas.
+#
+# Si un dato del curso aparece en dos sitios, uno de los dos esta mal. Cambialo
+# AQUI y vuelve a generar; no edites los .qmd generados a mano.
+#
+# Los campos marcados con  # VERIFICAR  vienen del silabo 2026-1 y hay que
+# confirmarlos contra el silabo 2026-2 antes de publicar nada.
+# Los campos marcados con  # PENDIENTE  estan vacios a proposito, esperando
+# que subas el documento o la foto correspondiente a _entrada/.
+# =============================================================================
+
+ciclo: "2026-2"
+codigo: IEE2A5
+nombre: "Maquinas Electricas"
+creditos: 4.25
+facultad: "Facultad de Ciencias e Ingenieria"
+especialidad: "Ingenieria Mecanica"
+formato_documento: "FCI-Adm-4.01"   # codigo de formato en la cabecera PUCP
+
+# Horas de dictado (silabo 2026-1)                                # VERIFICAR
+horas:
+  clase:        {cantidad: 3, frecuencia: semanal}
+  practica:     {cantidad: 2, frecuencia: quincenal}
+  laboratorio:  {cantidad: 3, frecuencia: quincenal}
+
+profesores:
+  - nombre: "Joaquin Gonzalez Villarreal"
+    iniciales: JGV
+    dicta: "hasta el parcial"
+  - nombre: "Marco Antonio Romero Jimenez"                        # VERIFICAR
+    iniciales: MAR
+    dicta: "desde el parcial"
+
+jefes_practica: []                                                # PENDIENTE
+
+# -----------------------------------------------------------------------------
+# EVALUACION  (silabo 2026-1)                                     # VERIFICAR
+# -----------------------------------------------------------------------------
+# Nota final = (15*Pa + 5*Pb1 + 6*Pb2 + 4*Pb3 + 6*Pb4 + 4*Pb5 + 10*Pb6
+#               + 20*Ex1 + 30*Ex2) / 100
+#
+# IMPORTANTE: el campus virtual calcula el promedio Pa automaticamente. Solo se
+# ingresan Pa1..Pa4 individualmente. Por eso el bonus de exposicion se aplica a
+# una practica concreta, nunca al promedio.
+evaluacion:
+  Pa:
+    descripcion: "Practica tipo A (4 sincronas presenciales + 4 dirigidas)"
+    cantidad: 4
+    peso_total: 15
+    modo: promedio
+    eliminables: 1
+    # ATENCION: hay que confirmar en Secretaria si el eliminable es la nota mas
+    # baja (automatico) o una que el alumno elige. El diseno del bonus de
+    # exposicion depende de esto.
+    eliminable_es: "mas_baja"                                     # VERIFICAR
+  Pb:
+    descripcion: "Practica tipo B (6 laboratorios calificados; el proyecto vive aqui)"
+    cantidad: 6
+    pesos: [5, 6, 4, 6, 4, 10]
+    modo: por_evaluacion
+    eliminables: 0
+  Ex:
+    descripcion: "Examenes"
+    cantidad: 2
+    pesos: [20, 30]
+    modo: por_evaluacion
+
+# -----------------------------------------------------------------------------
+# CAPITULOS   -> se llenan desde _entrada/silabo-2026-2/           # PENDIENTE
+# -----------------------------------------------------------------------------
+# Formato de cada entrada:
+#   - id: cap1
+#     titulo: "Caracteristicas generales"
+#     horas: 3
+#     carpeta: teoria/cap1-generalidades
+capitulos: []
+
+# -----------------------------------------------------------------------------
+# DIRIGIDAS  (alimentan Pa)
+# -----------------------------------------------------------------------------
+dirigidas:
+  - {id: pd1, titulo: "Circuitos magneticos",  herramienta: FEMM,     carpeta: dirigidas/pd1-femm,      alimenta: Pa1}
+  - {id: pd2, titulo: "Por definir",           herramienta: Simulink, carpeta: dirigidas/pd2-simulink,  alimenta: Pa2}
+  - {id: pd3, titulo: "Por definir",           herramienta: null,     carpeta: dirigidas/pd3,           alimenta: Pa3}
+  - {id: pd4, titulo: "Por definir",           herramienta: null,     carpeta: dirigidas/pd4,           alimenta: Pa4}
+
+# -----------------------------------------------------------------------------
+# LABORATORIOS  (Pb1..Pb6). El proyecto es parte del laboratorio.
+# -----------------------------------------------------------------------------
+laboratorios:
+  - {id: lab1, evaluacion: Pb1, peso: 5,  carpeta: laboratorios/lab1}
+  - {id: lab2, evaluacion: Pb2, peso: 6,  carpeta: laboratorios/lab2}
+  - {id: lab3, evaluacion: Pb3, peso: 4,  carpeta: laboratorios/lab3}
+  - {id: lab4, evaluacion: Pb4, peso: 6,  carpeta: laboratorios/lab4}
+  - {id: lab5, evaluacion: Pb5, peso: 4,  carpeta: laboratorios/lab5}
+  - {id: lab6, evaluacion: Pb6, peso: 10, carpeta: laboratorios/lab6}
+
+proyecto:
+  descripcion: "Diseno y construccion de un motor o generador"
+  parte_de: laboratorio
+  carpeta: laboratorios/proyecto
+  hitos:                                                          # VERIFICAR
+    - {id: parcial, informe: true, presentacion: true, semana: null}
+    - {id: final,   informe: true, presentacion: true, semana: null}
+
+# -----------------------------------------------------------------------------
+# EXPOSICIONES EN CLASE  ("vibequest")
+# -----------------------------------------------------------------------------
+# Individuales. Los sorteados de la sesion N exponen su solucion al ejercicio
+# dejado en la sesion N-1 (el silabo ya manda dejar ejercicios en clase).
+exposiciones:
+  activo: true
+  minutos_por_alumno: 5
+  alumnos_por_sesion: 5
+  minutos_preguntas: 5
+  primera_sesion: 2          # la sesion 1 no tiene ejercicio previo que exponer
+  aviso_voluntario_horas: 24
+  penalidad_por_no_exponer: false
+  bonus:
+    maximo: 2
+    aplica_a: "practica_de_la_sesion"   # nunca al promedio Pa: lo calcula el campus
+    tope_nota: 20
+  semilla_sorteo: 20262      # fija => el sorteo es reproducible y auditable
+
+# Lista de alumnos -> desde _entrada/fotos/                        # PENDIENTE
+# Formato: - {codigo: "20201234", nombre: "Apellido, Nombre"}
+alumnos: []
+
+# -----------------------------------------------------------------------------
+# CALENDARIO  -> desde _entrada/fotos/                             # PENDIENTE
+# -----------------------------------------------------------------------------
+# Formato de cada sesion:
+#   - {n: 1, fecha: 2026-08-18, tipo: clase, capitulo: cap1, responsable: JGV}
+# tipo: clase | dirigida | laboratorio | examen
+sesiones: []
+
+# Enlaces a material que se queda fuera del repo
+enlaces:
+  drive: null                                                     # PENDIENTE
+  paideia: null                                                   # PENDIENTE
+  notebooklm: null                                                # PENDIENTE
+  discord: null                                                   # PENDIENTE

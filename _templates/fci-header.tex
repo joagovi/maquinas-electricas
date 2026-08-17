@@ -1,0 +1,25 @@
+% Formato PUCP / FCI-Adm-4.01
+% Se inyecta via include-in-header desde _quarto.yml
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{enumitem}
+
+% Pie de pagina en todas las hojas: "Pagina N de M"
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\small P\'agina \thepage\ de \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Primera hoja: ademas el codigo de formato arriba a la derecha
+\fancypagestyle{fciprimera}{%
+  \fancyhf{}%
+  \fancyhead[R]{\small FCI-Adm-4.01}%
+  \fancyfoot[C]{\small P\'agina \thepage\ de \pageref{LastPage}}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0pt}%
+}
+
+% Los enunciados usan "Pregunta N (X puntos)" como seccion: sin numeracion
+% automatica, el puntaje va escrito en el propio titulo.
+\setcounter{secnumdepth}{0}

@@ -1,0 +1,50 @@
+# --- Zona de entrada: material crudo, local, NO versionado -------------------
+# Puede contener PDFs enormes e informes de alumnos. Lo que deba versionarse
+# se mueve a mano a legacy/ despues de revisar su tamano.
+_entrada/*
+!_entrada/LEEME.md
+
+# --- Salidas generadas -------------------------------------------------------
+_site/
+_book/
+.quarto/
+notebooklm/*.pdf
+notebooklm/*.zip
+
+# --- Material que NUNCA debe entrar a git ------------------------------------
+# Informes y entregas de alumnos: viven en Drive, aqui solo se enlazan.
+**/informes-alumnos/
+**/entregas/
+# Binarios pesados
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.zip
+*.7z
+*.tar.xz
+*.iso
+
+# --- LaTeX -------------------------------------------------------------------
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+
+# --- Secretos ----------------------------------------------------------------
+.env
+.env.*
+*.key
+credenciales*
+
+# --- Sistema -----------------------------------------------------------------
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc
+.venv/
+
+/.quarto/

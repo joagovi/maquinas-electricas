@@ -1,0 +1,40 @@
+$-- Partial de Quarto: cabecera institucional PUCP / FCI-Adm-4.01
+$-- Los campos salen del frontmatter YAML de cada .qmd
+\thispagestyle{fciprimera}
+
+\begin{center}
+{\bfseries PONTIFICIA UNIVERSIDAD CAT\'OLICA DEL PER\'U}\\
+{\bfseries FACULTAD DE CIENCIAS E INGENIER\'IA}\\[1.4em]
+$if(curso)${\bfseries $curso$}\\[0.3em]$endif$
+$if(title)${\large $title$}\\[0.3em]$endif$
+$if(semestre)$($semestre$)$endif$
+\end{center}
+
+\vspace{1.2em}
+
+$if(indicaciones)$
+\noindent\textbf{Indicaciones generales:}
+\begin{itemize}[leftmargin=1.6em, itemsep=0.15em, topsep=0.3em]
+$if(duracion)$
+\item Duraci\'on: $duracion$.
+$endif$
+$if(materiales)$
+\item Materiales o equipos a utilizar: $materiales$.
+$endif$
+$for(indicaciones)$
+\item $indicaciones$
+$endfor$
+\end{itemize}
+$endif$
+
+$if(puntaje)$
+\vspace{0.6em}
+\noindent\textbf{Puntaje total:} $puntaje$
+$endif$
+
+$if(cuestionario)$
+\vspace{0.8em}
+\noindent\textbf{Cuestionario:}
+$endif$
+
+\vspace{0.4em}

@@ -1,0 +1,70 @@
+---
+title: "Primera práctica dirigida"
+subtitle: "Circuitos magnéticos — FEMM"
+semestre: "Segundo semestre 2026"
+duracion: "1h 50 min"
+indicaciones:
+  - "La presentación, la ortografía y la gramática de los trabajos influirán en la calificación."
+puntaje: "9 puntos correspondientes a la primera práctica calificada"
+format:
+  pdf: default
+  html: default
+---
+
+::: {.content-visible when-format="html"}
+::: {.callout-warning}
+## Plantilla sin contenido definitivo
+La estructura, la cabecera y el reparto de puntajes ya son los correctos. **Falta pegar el
+enunciado del ciclo.** Coloca el original en `_entrada/ciclo-anterior/` o
+`_entrada/paideia-docente/` y se convierte.
+
+El solucionario **no va aquí**: vive en el repositorio privado.
+:::
+:::
+
+## Pregunta 1 (5.5 puntos)
+
+<!-- Enunciado del circuito magnético. Datos típicos de esta pregunta:
+     entrehierros g1 = g2, espesor y profundidad de las ramas, número de vueltas
+     y corriente de la bobina F1, permeabilidad relativa del núcleo. -->
+
+::: {.callout-note appearance="minimal"}
+**Figura pendiente.** El diagrama del circuito magnético se dibuja con `circuitikz`
+(ver `_templates/` para el preámbulo) o se incluye como imagen en esta misma carpeta.
+:::
+
+Considerando que la permeabilidad relativa es _(valor)_ para el material del núcleo y
+despreciando los flujos dispersos, obtenga de forma analítica:
+
+a) **(1.5 puntos)** La fuerza magnetomotriz (magnitud y sentido) que debe suministrar la
+   bobina F2 para producir el flujo indicado en el entrehierro. Dibujar la analogía
+   eléctrica del circuito magnético equivalente.
+
+b) **(1.0 puntos)** La corriente que circula por la bobina F2. Además, indique el valor de
+   la densidad e intensidad del campo para el entrehierro y todas las ramas del circuito
+   magnético.
+
+**Utilizando FEMM/MATLAB:**
+
+c) **(3.0 puntos)** _(Enunciado de la parte de simulación.)_
+
+## Pregunta 2 (3.5 puntos)
+
+<!-- Segunda pregunta de la dirigida. -->
+
+_(Pendiente.)_
+
+---
+
+## Cómo se escribe una pregunta en este formato
+
+::: {.content-visible when-format="html"}
+Esta sección **no sale en el PDF** — es ayuda para ti y para los jefes de práctica.
+
+- Cada pregunta es un encabezado `## Pregunta N (X puntos)`.
+- Los incisos son una lista `a)`, `b)`, `c)` con el puntaje en **negrita** al inicio.
+- La suma de los puntajes debe cuadrar con el campo `puntaje:` de la cabecera.
+- Las fórmulas van entre `$...$` en línea o `$$...$$` en bloque, en LaTeX normal:
+  $R_m = \dfrac{l}{\mu_0 \mu_r A}$.
+- Las tablas de datos se escriben en Markdown y salen bien en PDF y en web.
+:::

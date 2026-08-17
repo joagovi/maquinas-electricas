@@ -1,0 +1,58 @@
+project:
+  type: website
+  output-dir: _site
+  render:
+    - "*.qmd"
+    - "teoria/**/*.qmd"
+    - "dirigidas/**/*.qmd"
+    - "laboratorios/**/*.qmd"
+    - "exposiciones/**/*.qmd"
+    - "gestion/**/*.qmd"
+    - "!_entrada/**"
+    - "!legacy/**"
+    - "!docs/**"
+
+website:
+  title: "IEE2A5 — Máquinas Eléctricas"
+  description: "Material del curso. PUCP, Facultad de Ciencias e Ingeniería."
+  navbar:
+    left:
+      - href: index.qmd
+        text: Inicio
+      - href: gestion/calendario.qmd
+        text: Calendario
+      - text: Dirigidas
+        menu:
+          - dirigidas/pd1-femm/index.qmd
+      - text: Laboratorios
+        menu:
+          - laboratorios/proyecto/index.qmd
+      - href: exposiciones/reglas.qmd
+        text: Exposiciones
+  page-footer:
+    center: "Material del curso IEE2A5. Generado desde el repositorio — no editar los PDF a mano."
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    lang: es
+
+  pdf:
+    documentclass: article
+    papersize: a4
+    lang: es
+    fontsize: 11pt
+    geometry:
+      - top=2.5cm
+      - bottom=2.5cm
+      - left=2.5cm
+      - right=2.5cm
+    include-in-header: _templates/fci-header.tex
+    template-partials:
+      - _templates/title.tex
+      - _templates/before-body.tex
+    # Valores por defecto; cada documento puede sobreescribirlos
+    curso: "MÁQUINAS ELÉCTRICAS"
+    cuestionario: true
+    keep-tex: false
