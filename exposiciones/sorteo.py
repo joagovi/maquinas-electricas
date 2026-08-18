@@ -28,6 +28,7 @@ except ImportError:
 
 RAIZ = Path(__file__).resolve().parent.parent
 CURSO = RAIZ / "silabo" / "curso.yml"
+INTERNO = RAIZ / "silabo" / "interno.yml"   # fuera de git: nombres de alumnos
 SALIDA = RAIZ / "exposiciones" / "sorteo.md"
 
 
@@ -43,7 +44,16 @@ class DatosIncompletos(Exception):
 
 
 def cargar_curso(ruta: Path | None = None) -> dict:
-    return cargar(ruta or CURSO)
+    """Curso + lista de alumnos.
+
+    Los nombres viven en silabo/interno.yml (fuera de git). Si `curso.yml` ya
+    trae `alumnos` (util para pruebas), se respeta lo que traiga.
+    """
+    curso = cargar(ruta or CURSO)
+    if not curso.get("alumnos") and INTERNO.exists():
+        interno = cargar(INTERNO) or {}
+        curso["alumnos"] = interno.get("alumnos") or []
+    return curso
 
 
 def sesiones_disponibles(curso: dict) -> list[dict]:
@@ -72,8 +82,8 @@ def verificar(curso: dict) -> tuple[list[dict], list[dict], int]:
     if not alumnos:
         raise DatosIncompletos(
             "La lista de alumnos esta vacia.\n"
-            "  -> Sube la foto de la lista a _entrada/fotos/ y transcribela a\n"
-            "     la clave `alumnos:` de silabo/curso.yml"
+            "  -> Deja el Excel de matriculados en _entrada/listas/ y ejecuta:\n"
+            "       .venv/bin/python scripts/importar.py"
         )
 
     sesiones = sesiones_disponibles(curso)

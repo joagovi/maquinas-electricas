@@ -11,11 +11,14 @@ _book/
 notebooklm/*.pdf
 notebooklm/*.zip
 
-# --- Datos personales de alumnos ---------------------------------------------
-# La lista de matriculados y el sorteo con nombres NO se publican en un sitio
-# web abierto. El sorteo se entrega por Paideia, que exige login.
+# --- Informacion interna: alumnos, jefes de practica, horarios ---------------
+# Nombres de alumnos y de jefes de practica NO se publican en un sitio web
+# abierto. El sorteo con nombres se entrega por Paideia, que exige login.
 silabo/alumnos.yml
+silabo/interno.yml
+silabo/*.xlsx
 exposiciones/sorteo.md
+gestion/interno-*.qmd
 
 # --- Material que NUNCA debe entrar a git ------------------------------------
 # Informes y entregas de alumnos: viven en Drive, aqui solo se enlazan.

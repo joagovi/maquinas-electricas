@@ -136,23 +136,41 @@ def calendario(curso: dict) -> str:
 
 # --------------------------------------------------------------------------- #
 def responsables(curso: dict) -> str:
-    out = cabecera("Equipo del curso", curso)
+    """Pagina publica: horarios y aulas, sin nombres de jefes de practica.
+
+    Los nombres son informacion interna y viven en silabo/interno.yml, que esta
+    fuera de git. Aqui solo va lo que el alumno necesita para saber a que hora y
+    donde le toca.
+    """
+    out = cabecera("Horarios y evaluación", curso)
 
     out += "## Profesores\n\n| Nombre | Dicta |\n|--------|-------|\n"
     for p in curso.get("profesores") or []:
         out += f"| {p.get('nombre','—')} | {p.get('dicta','—')} |\n"
 
-    jps = curso.get("jefes_practica") or []
-    out += "\n## Jefes de práctica\n\n"
-    if not jps:
-        out += falta(
-            "Los jefes de práctica todavía no están asignados.",
-            "silabo/curso.yml (clave `jefes_practica`)",
+    h = curso.get("horarios") or {}
+    out += "\n## Horarios\n\n| Actividad | Código | Sesión | Aula |\n"
+    out += "|-----------|-------:|--------|------|\n"
+    for etiqueta, clave in (("Clase", "clase"), ("Práctica", "practica")):
+        d = h.get(clave) or {}
+        if d:
+            out += (
+                f"| {etiqueta} | {d.get('codigo','—')} | {d.get('sesion','—')} "
+                f"| {d.get('aula','—')} |\n"
+            )
+    for i, lab in enumerate(h.get("laboratorio") or [], 1):
+        out += (
+            f"| Laboratorio {i} | {lab.get('codigo','—')} | {lab.get('sesion','—')} "
+            f"| {lab.get('aula','—')} |\n"
         )
-    else:
-        out += "| Nombre | A cargo de |\n|--------|-----------|\n"
-        for j in jps:
-            out += f"| {j.get('nombre','—')} | {j.get('a_cargo','—')} |\n"
+    ex = h.get("examen") or {}
+    if ex:
+        out += f"| Examen | — | {ex.get('sesion','—')} | {ex.get('aula','—')} |\n"
+
+    out += (
+        "\nConsulta en Paideia el laboratorio que te corresponde y quién es tu jefe de "
+        "práctica.\n"
+    )
 
     ev = curso.get("evaluacion") or {}
     out += "\n## Sistema de evaluación\n\n"

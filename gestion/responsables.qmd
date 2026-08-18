@@ -1,5 +1,5 @@
 ---
-title: "Equipo del curso"
+title: "Horarios y evaluación"
 subtitle: "IEE2A5 — Maquinas Electricas — 2026-2"
 ---
 
@@ -14,15 +14,21 @@ Generado automáticamente desde `silabo/curso.yml`. **No editar a mano** — se 
 | Joaquin Gonzalez Villarreal | hasta el parcial |
 | Marco Antonio Romero Jimenez | desde el parcial |
 
-## Jefes de práctica
+## Horarios
 
-::: {.callout-warning}
-## Falta información
+| Actividad | Código | Sesión | Aula |
+|-----------|-------:|--------|------|
+| Clase | 811 | SAB 15:00-18:00 | C N422 |
+| Práctica | 811 | LUN 16:00-18:00 | A H412 |
+| Laboratorio 1 | 811 | JUE 15:00-18:00 | B U109 |
+| Laboratorio 2 | 812 | LUN 14:00-17:00 | B U109 |
+| Laboratorio 3 | 814 | SAB 11:00-14:00 | A U109 |
+| Laboratorio 4 | 815 | LUN 17:00-20:00 | B U109 |
+| Laboratorio 5 | 816 | MAR 17:00-20:00 | B U109 |
+| Laboratorio 6 | 817 | MIE 17:00-20:00 | A U109 |
+| Examen | — | JUE 15:00-18:00 | E P201 |
 
-Los jefes de práctica todavía no están asignados.
-
-**Qué hacer:** deja el archivo en `silabo/curso.yml (clave `jefes_practica`)` y vuelve a generar.
-:::
+Consulta en Paideia el laboratorio que te corresponde y quién es tu jefe de práctica.
 
 ## Sistema de evaluación
 

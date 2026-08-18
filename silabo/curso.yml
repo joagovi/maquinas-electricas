@@ -38,23 +38,38 @@ profesores:
 # -----------------------------------------------------------------------------
 # HORARIOS
 # -----------------------------------------------------------------------------
-# El curso se dicta en mas de un horario y cada uno es un grupo de clase aparte:
-# el sorteo de exposiciones se hace POR HORARIO, no sobre el total de alumnos.
+# HAY UN SOLO HORARIO DE CLASE: los 37 alumnos van juntos. El sorteo de
+# exposiciones se hace sobre el grupo completo, no por subgrupos.
+# El laboratorio si se parte en seis horarios de 6-7 alumnos cada uno.
 #
-# Los alumnos NO van aqui. Deja el Excel de matriculados en _entrada/listas/ y
-# ejecuta:   .venv/bin/python scripts/importar_alumnos.py
-# Eso escribe silabo/alumnos.yml, que esta fuera de git por privacidad.
+# Aqui solo va la estructura publica (codigo, dia, hora, aula). Los NOMBRES de
+# alumnos y jefes de practica viven en silabo/interno.yml, que esta fuera de
+# git. Para regenerarlo:
 #
-# Los horarios de abajo se dedujeron de la carpeta docente 2026-1.  # VERIFICAR
+#     .venv/bin/python scripts/importar.py
+#
+# lee _entrada/listas/*.xlsx y silabo/HORARIO*.xlsx.
 horarios:
-  - id: H1
-    nombre: "Lunes 2:00 - 5:00 pm"                                 # VERIFICAR
-    profesor: JGV                                                  # VERIFICAR
-    jefes_practica: []                                             # PENDIENTE
-  - id: H2
-    nombre: "Lunes 5:00 - 8:00 pm"                                 # VERIFICAR
-    profesor: JGV                                                  # VERIFICAR
-    jefes_practica: []                                             # PENDIENTE
+  clase:
+    codigo: 811
+    sesion: "SAB 15:00-18:00"
+    aula: "C N422"
+    matriculados: 37
+  practica:
+    codigo: 811
+    sesion: "LUN 16:00-18:00"
+    aula: "A H412"
+    matriculados: 37
+  laboratorio:
+    - {codigo: 811, sesion: "JUE 15:00-18:00", aula: "B U109", matriculados: 6}
+    - {codigo: 812, sesion: "LUN 14:00-17:00", aula: "B U109", matriculados: 6}
+    - {codigo: 814, sesion: "SAB 11:00-14:00", aula: "A U109", matriculados: 6}
+    - {codigo: 815, sesion: "LUN 17:00-20:00", aula: "B U109", matriculados: 7}
+    - {codigo: 816, sesion: "MAR 17:00-20:00", aula: "B U109", matriculados: 6}
+    - {codigo: 817, sesion: "MIE 17:00-20:00", aula: "A U109", matriculados: 6}
+  examen:
+    sesion: "JUE 15:00-18:00"
+    aula: "E P201"
 
 # -----------------------------------------------------------------------------
 # EVALUACION  (silabo 2026-1)                                     # VERIFICAR
