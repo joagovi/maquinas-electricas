@@ -18,6 +18,11 @@ Antonio Romero Jiménez, que dicta desde el parcial.
 2. `docs/bitacora.md` — qué se ha hecho, cuándo y qué quedó pendiente.
 3. `silabo/curso.yml` — los datos del curso.
 
+> **`docs/` no está en el repositorio público.** Contiene notas internas de trabajo con
+> valoraciones francas sobre el curso y sobre colegas. Existe solo en la máquina del profesor
+> y en el repositorio privado. Si clonaste el repo público y no ves esa carpeta, es correcto:
+> guíate por este archivo y por `silabo/curso.yml`.
+
 ## Reglas del proyecto
 
 - **`silabo/curso.yml` es la fuente única.** Pesos, capítulos, sesiones, alumnos y fechas
