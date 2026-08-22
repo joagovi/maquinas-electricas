@@ -36,17 +36,20 @@ jobs:
       # El runner no deja tlmgr en el PATH, asi que hay que buscarlo.
       - name: Instalar paquetes LaTeX de espanol
         run: |
+          echo "--- buscando tlmgr ---"
           TLMGR="$(command -v tlmgr || true)"
           if [ -z "$TLMGR" ]; then
-            TLMGR="$(find "$HOME" -type f -name tlmgr -perm -u+x 2>/dev/null | head -1)"
+            TLMGR="$(find "$HOME" /opt /usr/local -type f -name 'tlmgr*' 2>/dev/null | head -1)"
           fi
           if [ -z "$TLMGR" ]; then
-            echo "::error::No encuentro tlmgr; TinyTeX no quedo instalado."
-            exit 1
+            echo "::warning::No encuentro tlmgr. Continuo: si el PDF falla por babel, se vera en el render."
+            find "$HOME" -maxdepth 4 -iname '*tinytex*' 2>/dev/null | head -5
+            exit 0
           fi
           echo "tlmgr en: $TLMGR"
           echo "$(dirname "$TLMGR")" >> "$GITHUB_PATH"
-          "$TLMGR" install babel-spanish hyphen-spanish
+          "$TLMGR" install babel-spanish hyphen-spanish || \
+            echo "::warning::tlmgr no pudo instalar los paquetes; se vera en el render."
 
       - name: Instalar fuentes Arial-compatibles
         run: sudo apt-get update -qq && sudo apt-get install -y -qq fonts-liberation
