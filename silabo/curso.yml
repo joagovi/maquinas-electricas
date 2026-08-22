@@ -168,13 +168,16 @@ laboratorios:
 
   software: ["LVSim de FESTO", "MATLAB"]
 
+  # Orden tomado del calendario academico 2026-2 (columna de laboratorios).
+  # OJO: no es el mismo orden que en 2026-1.
   sesiones:
-    - {id: lab1, evaluacion: Pb1, peso: 5,  tema: "Generador sincrono",              carpeta: laboratorios/lab1}
-    - {id: lab2, evaluacion: Pb2, peso: 6,  tema: "Maquinas asincronas",             carpeta: laboratorios/lab2}
-    - {id: lab3, evaluacion: Pb3, peso: 4,  tema: "Presentacion parcial + prueba",   carpeta: laboratorios/lab3}
-    - {id: lab4, evaluacion: Pb4, peso: 6,  tema: "Maquinas DC",                     carpeta: laboratorios/lab4}
+    - {id: lab0, evaluacion: null, peso: 0,  tema: "Presentacion del lab: circuitos magneticos", carpeta: null}
+    - {id: lab1, evaluacion: Pb1, peso: 5,  tema: "Motor DC",                        carpeta: laboratorios/lab1}
+    - {id: lab2, evaluacion: Pb2, peso: 6,  tema: "Maquina sincrona",                carpeta: laboratorios/lab2}
+    - {id: lab3, evaluacion: Pb3, peso: 4,  tema: "Presentacion parcial del proyecto + prueba", carpeta: laboratorios/lab3}
+    - {id: lab4, evaluacion: Pb4, peso: 6,  tema: "Maquina asincrona",               carpeta: laboratorios/lab4}
     - {id: lab5, evaluacion: Pb5, peso: 4,  tema: "Metodos de arranque",             carpeta: laboratorios/lab5}
-    - {id: lab6, evaluacion: Pb6, peso: 10, tema: "Presentacion final + prueba",     carpeta: laboratorios/lab6}
+    - {id: lab6, evaluacion: Pb6, peso: 10, tema: "Presentacion final del proyecto", carpeta: laboratorios/lab6}
 
 proyecto:
   descripcion: "Diseno y construccion de un motor o generador"
@@ -204,9 +207,13 @@ proyecto:
 exposiciones:
   activo: true
   minutos_por_alumno: 5
-  alumnos_por_sesion: 5
+  # 6 y no 5: con 37 alumnos y 7 sesiones habiles, a 5 por sesion faltaban 2
+  # turnos. A 6 salen 42 y sobran 5, que sirven de colchon por si se cae una
+  # sesion. La ultima sesion queda con menos alumnos.
+  alumnos_por_sesion: 6
   minutos_preguntas: 5
   primera_sesion: 2          # la sesion 1 no tiene ejercicio previo que exponer
+  responsable: JGV           # solo en su mitad del ciclo: el bonus va a Pa1 y Pa2
   aviso_voluntario_horas: 24
   penalidad_por_no_exponer: false
   bonus:
@@ -225,7 +232,30 @@ alumnos: []
 # Formato de cada sesion:
 #   - {n: 1, fecha: 2026-08-18, tipo: clase, capitulo: cap1, responsable: JGV}
 # tipo: clase | dirigida | laboratorio | examen
-sesiones: []
+#
+# Sabados de clase (15:00-18:00, C N422) tomados del calendario academico
+# 2026-2. Antes del parcial dicta JGV; despues, MAR.
+#
+# PENDIENTE: confirmar si el sabado 2026-08-15 (semana 0) tiene clase. En el
+# calendario aparece marcado "T" y no queda claro. Ese unico dia decide si hay
+# 8 o 9 sesiones habiles, y con ello si los turnos de exposicion alcanzan.
+sesiones:
+  - {n: 1, fecha: 2026-08-22, tipo: clase, responsable: JGV, capitulo: cap1}
+  - {n: 2, fecha: 2026-08-29, tipo: clase, responsable: JGV}
+  - {n: 3, fecha: 2026-09-05, tipo: clase, responsable: JGV}
+  - {n: 4, fecha: 2026-09-12, tipo: clase, responsable: JGV}
+  - {n: 5, fecha: 2026-09-19, tipo: clase, responsable: JGV}
+  - {n: 6, fecha: 2026-09-26, tipo: clase, responsable: JGV}
+  - {n: 7, fecha: 2026-10-03, tipo: clase, responsable: JGV}
+  - {n: 8, fecha: 2026-10-10, tipo: clase, responsable: JGV}
+  - {n: 9,  fecha: 2026-10-17, tipo: examen, tema: "Examen parcial (Ex1)"}
+  - {n: 10, fecha: 2026-10-24, tipo: clase, responsable: MAR}
+  - {n: 11, fecha: 2026-10-31, tipo: clase, responsable: MAR}
+  - {n: 12, fecha: 2026-11-07, tipo: clase, responsable: MAR}
+  - {n: 13, fecha: 2026-11-14, tipo: clase, responsable: MAR}
+  - {n: 14, fecha: 2026-11-21, tipo: clase, responsable: MAR}
+  - {n: 15, fecha: 2026-11-28, tipo: clase, responsable: MAR, tema: "Fin de clases"}
+  - {n: 16, fecha: 2026-12-05, tipo: examen, tema: "Examen final (Ex2)"}
 
 # Enlaces a material que se queda fuera del repo
 enlaces:

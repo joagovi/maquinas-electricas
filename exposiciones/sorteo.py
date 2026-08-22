@@ -64,10 +64,15 @@ def sesiones_disponibles(curso: dict) -> list[dict]:
     """
     cfg = curso.get("exposiciones") or {}
     desde = cfg.get("primera_sesion", 2)
+    # Las exposiciones solo ocurren en la mitad del ciclo que dicta el profesor
+    # responsable: el bonus va a SUS practicas calificadas.
+    responsable = cfg.get("responsable")
     return [
         s
         for s in (curso.get("sesiones") or [])
-        if s.get("tipo") == "clase" and s.get("n", 0) >= desde
+        if s.get("tipo") == "clase"
+        and s.get("n", 0) >= desde
+        and (responsable is None or s.get("responsable") == responsable)
     ]
 
 

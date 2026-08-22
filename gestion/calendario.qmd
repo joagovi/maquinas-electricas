@@ -7,10 +7,21 @@ subtitle: "IEE2A5 — Maquinas Electricas — 2026-2"
 Generado automáticamente desde `silabo/curso.yml`. **No editar a mano** — se sobreescribe en cada publicación. Para cambiar algo, edita `curso.yml`.
 :::
 
-::: {.callout-warning}
-## Falta información
-
-El calendario del ciclo todavía no está cargado.
-
-**Qué hacer:** deja el archivo en `_entrada/fotos/ (foto del calendario)` y vuelve a generar.
-:::
+| Sesión | Fecha | Tipo | Tema | Responsable |
+|-------:|-------|------|------|-------------|
+| 1 | 2026-08-22 | clase | Introduccion y circuitos magneticos | JGV |
+| 2 | 2026-08-29 | clase | — | JGV |
+| 3 | 2026-09-05 | clase | — | JGV |
+| 4 | 2026-09-12 | clase | — | JGV |
+| 5 | 2026-09-19 | clase | — | JGV |
+| 6 | 2026-09-26 | clase | — | JGV |
+| 7 | 2026-10-03 | clase | — | JGV |
+| 8 | 2026-10-10 | clase | — | JGV |
+| 9 | 2026-10-17 | examen | Examen parcial (Ex1) | — |
+| 10 | 2026-10-24 | clase | — | MAR |
+| 11 | 2026-10-31 | clase | — | MAR |
+| 12 | 2026-11-07 | clase | — | MAR |
+| 13 | 2026-11-14 | clase | — | MAR |
+| 14 | 2026-11-21 | clase | — | MAR |
+| 15 | 2026-11-28 | clase | Fin de clases | MAR |
+| 16 | 2026-12-05 | examen | Examen final (Ex2) | — |

@@ -10,7 +10,7 @@ Generado automáticamente desde `silabo/curso.yml`. **No editar a mano** — se 
 
 ## En qué consiste
 
-Cada sesión de clase, **5 alumnos** exponen durante **5 minutos** cada uno, más
+Cada sesión de clase, **6 alumnos** exponen durante **5 minutos** cada uno, más
 **5 minutos** de preguntas al final. En total, media hora por sesión.
 
 Se expone **la solución al ejercicio dejado en la sesión anterior**. No hay que preparar
