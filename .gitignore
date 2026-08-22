@@ -11,6 +11,12 @@ _book/
 notebooklm/*.pdf
 notebooklm/*.zip
 
+# --- Notas internas de trabajo -----------------------------------------------
+# El plan y la bitacora contienen valoraciones francas sobre el curso y sobre
+# colegas. Son material de trabajo del profesor, no material de curso: no van
+# al repositorio publico. Se quedan en disco y en el repositorio privado.
+docs/
+
 # --- Informacion interna: alumnos, jefes de practica, horarios ---------------
 # Nombres de alumnos y de jefes de practica NO se publican en un sitio web
 # abierto. El sorteo con nombres se entrega por Paideia, que exige login.
