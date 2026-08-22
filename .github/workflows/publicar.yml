@@ -30,8 +30,20 @@ jobs:
 
       # TinyTeX es minimo y NO trae el soporte de espanol de babel. Sin esto el
       # PDF falla con "Unknown option 'spanish'". Lo aprendimos en local.
+      # El runner no deja tlmgr en el PATH, asi que hay que buscarlo.
       - name: Instalar paquetes LaTeX de espanol
-        run: tlmgr install babel-spanish hyphen-spanish
+        run: |
+          TLMGR="$(command -v tlmgr || true)"
+          if [ -z "$TLMGR" ]; then
+            TLMGR="$(find "$HOME" -type f -name tlmgr -perm -u+x 2>/dev/null | head -1)"
+          fi
+          if [ -z "$TLMGR" ]; then
+            echo "::error::No encuentro tlmgr; TinyTeX no quedo instalado."
+            exit 1
+          fi
+          echo "tlmgr en: $TLMGR"
+          echo "$(dirname "$TLMGR")" >> "$GITHUB_PATH"
+          "$TLMGR" install babel-spanish hyphen-spanish
 
       - name: Instalar fuentes Arial-compatibles
         run: sudo apt-get update -qq && sudo apt-get install -y -qq fonts-liberation
