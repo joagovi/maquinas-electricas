@@ -1,0 +1,68 @@
+---
+title: "Laboratorio 5 — Metodos de arranque"
+curso: "MÁQUINAS ELÉCTRICAS"
+semestre: "Segundo semestre 2026"
+format:
+  html: default
+  pdf: default
+---
+
+::: {.content-visible when-format="html"}
+::: {.callout-warning}
+## Guía pendiente de contenido
+La estructura, los puntajes y las reglas ya son los correctos. Falta el desarrollo técnico:
+objetivos, equipos, procedimiento de ensayo y tablas de datos.
+
+Deja la guía del ciclo anterior en `_entrada/laboratorios/` **en Word** y se convierte.
+:::
+:::
+
+## Antes del laboratorio
+
+::: {.callout-important}
+Es tu **obligación** leer la guía y los documentos antes de la sesión. La actividad de
+simulación en **LVSIM** correspondiente a esta experiencia se resuelve antes de venir.
+:::
+
+## Objetivos
+
+_(Pendiente.)_
+
+## Equipos y materiales
+
+_(Pendiente.)_
+
+## Procedimiento
+
+_(Pendiente: ensayos, conexiones y tablas de datos a llenar.)_
+
+## Cómo se califica este laboratorio
+
+| Concepto | Puntos | Peso | Carácter |
+|---|---:|---:|---|
+| Avance del proyecto | 2 | 10% | Grupal |
+| Prueba rendida en el lab 3 o 6 | 8 | 40% | Individual |
+| Desempeno en el laboratorio | 2 | 10% | Individual |
+| Reporte: tablas, curvas de ajuste, calculos | 3 | 15% | Grupal |
+| Video: organizacion y expresion oral | 2 | 10% | Individual |
+| Video: sustento teorico, analisis, conclusiones | 3 | 15% | Grupal |
+| **Total** | **20** | **100%** | |
+
+## Entregas
+
+| Qué | Fecha límite (referencia 2026-1) | Puntos |
+|---|---|---:|
+| Avance del proyecto: Pruebas y resultados | 2026-06-19 | 2 |
+| Informe de laboratorio | 2026-07-02 | 8 |
+
+: Las fechas de 2026-2 están por confirmar.
+
+## El video
+
+- Máximo **9 minutos**.
+- Se entrega el **enlace** por Paideia, accesible para cualquier profesor o jefe de práctica.
+  **Si el enlace no abre, la nota de este apartado es 0.**
+- Debe abrir con: nombre, código, tema del laboratorio y nombre del jefe de práctica.
+  **Sin logo ni nombre de la universidad.**
+- Debe evidenciar la participación de **cada integrante**.
+- Incluir bibliografía en norma APA.

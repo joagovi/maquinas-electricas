@@ -49,27 +49,39 @@ profesores:
 #     .venv/bin/python scripts/importar.py
 #
 # lee _entrada/listas/*.xlsx y silabo/HORARIO*.xlsx.
+# La letra suelta que trae el campus antes del aula es la SECUENCIA, no parte
+# del nombre del aula:
+#   C = clase.
+#   A y B = las dos secuencias que ALTERNAN cada semana (A en semanas impares,
+#           B en pares). Por eso practica y laboratorio son quincenales: cada
+#           grupo se reune una semana si y otra no.
 horarios:
   clase:
     codigo: 811
-    sesion: "SAB 15:00-18:00"
-    aula: "C N422"
+    dia: SAB
+    horas: "15:00-18:00"
+    secuencia: C
+    aula: N422
     matriculados: 37
   practica:
     codigo: 811
-    sesion: "LUN 16:00-18:00"
-    aula: "A H412"
+    dia: LUN
+    horas: "16:00-18:00"
+    secuencia: A
+    aula: H412
     matriculados: 37
   laboratorio:
-    - {codigo: 811, sesion: "JUE 15:00-18:00", aula: "B U109", matriculados: 6}
-    - {codigo: 812, sesion: "LUN 14:00-17:00", aula: "B U109", matriculados: 6}
-    - {codigo: 814, sesion: "SAB 11:00-14:00", aula: "A U109", matriculados: 6}
-    - {codigo: 815, sesion: "LUN 17:00-20:00", aula: "B U109", matriculados: 7}
-    - {codigo: 816, sesion: "MAR 17:00-20:00", aula: "B U109", matriculados: 6}
-    - {codigo: 817, sesion: "MIE 17:00-20:00", aula: "A U109", matriculados: 6}
+    - {codigo: 811, dia: JUE, horas: "15:00-18:00", secuencia: B, aula: U109, matriculados: 6}
+    - {codigo: 812, dia: LUN, horas: "14:00-17:00", secuencia: B, aula: U109, matriculados: 6}
+    - {codigo: 814, dia: SAB, horas: "11:00-14:00", secuencia: A, aula: U109, matriculados: 6}
+    - {codigo: 815, dia: LUN, horas: "17:00-20:00", secuencia: B, aula: U109, matriculados: 7}
+    - {codigo: 816, dia: MAR, horas: "17:00-20:00", secuencia: B, aula: U109, matriculados: 6}
+    - {codigo: 817, dia: MIE, horas: "17:00-20:00", secuencia: A, aula: U109, matriculados: 6}
   examen:
-    sesion: "JUE 15:00-18:00"
-    aula: "E P201"
+    dia: JUE
+    horas: "15:00-18:00"
+    secuencia: E
+    aula: P201
 
 # -----------------------------------------------------------------------------
 # EVALUACION  (silabo 2026-1)                                     # VERIFICAR

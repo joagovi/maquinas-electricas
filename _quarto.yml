@@ -21,14 +21,28 @@ website:
         text: Inicio
       - href: gestion/calendario.qmd
         text: Calendario
+      - text: Clases
+        menu:
+          - href: teoria/cap1-circuitos-magneticos/index.qmd
+            text: "Sesión 1 — Circuitos magnéticos"
       - text: Dirigidas
         menu:
-          - dirigidas/pd1-femm/index.qmd
+          - href: dirigidas/pd1-femm/index.qmd
+            text: "PD1 — Circuitos magnéticos (FEMM)"
       - text: Laboratorios
         menu:
-          - laboratorios/proyecto/index.qmd
+          - href: laboratorios/lab1/index.qmd
+            text: "Lab 1 — Motor DC"
+          - href: laboratorios/lab2/index.qmd
+            text: "Lab 2 — Máquina síncrona"
+          - href: laboratorios/lab4/index.qmd
+            text: "Lab 4 — Máquina asíncrona"
+          - href: laboratorios/lab5/index.qmd
+            text: "Lab 5 — Métodos de arranque"
       - href: exposiciones/reglas.qmd
         text: Exposiciones
+      - href: gestion/responsables.qmd
+        text: Horarios
   page-footer:
     center: "Material del curso IEE2A5. Generado desde el repositorio — no editar los PDF a mano."
 

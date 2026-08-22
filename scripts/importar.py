@@ -61,6 +61,32 @@ def lineas(valor) -> list[str]:
     return [" ".join(p.split()) for p in str(valor or "").split("\n") if p.strip()]
 
 
+# "SAB 15:00-18:00 C N422"  ->  dia, horas, secuencia C, aula N422
+# La letra suelta antes del aula es la SECUENCIA, no parte del nombre del aula:
+#   C = clase,  A y B = las dos secuencias que alternan cada semana (por eso
+#   practica y laboratorio son quincenales).
+RE_SESION = re.compile(
+    r"^(?P<dia>[A-ZÁÉÍÓÚ]{3})\s+"
+    r"(?P<horas>\d{1,2}:\d{2}\s*-\s*\d{1,2}:\d{2})\s+"
+    r"(?P<secuencia>[A-Z])\s+"
+    r"(?P<aula>\S+)\s*$"
+)
+
+
+def partir_sesion(texto: str) -> dict:
+    """Separa 'SAB 15:00-18:00 C N422' en sus componentes."""
+    m = RE_SESION.match(texto.strip())
+    if not m:
+        return {"crudo": texto}
+    d = m.groupdict()
+    return {
+        "dia": d["dia"],
+        "horas": d["horas"].replace(" ", ""),
+        "secuencia": d["secuencia"],
+        "aula": d["aula"],
+    }
+
+
 # --------------------------------------------------------------------------- #
 def fila_encabezado(filas: list[tuple], marcador: str) -> int:
     for i, fila in enumerate(filas):
@@ -91,7 +117,7 @@ def importar_horarios(ruta: Path) -> dict:
             "codigo": entero(valor(fila, "Hor.")),
             "vacantes": entero(valor(fila, "Vac.")),
             "matriculados": entero(valor(fila, "Mat.")),
-            "sesiones": lineas(valor(fila, "Sesiones")),
+            "sesiones": [partir_sesion(s) for s in lineas(valor(fila, "Sesiones"))],
             "personal": lineas(valor(fila, "Profesor")),
         }
         salida.setdefault(tipo, []).append(entrada)

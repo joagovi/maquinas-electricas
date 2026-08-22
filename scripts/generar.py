@@ -148,29 +148,37 @@ def responsables(curso: dict) -> str:
     for p in curso.get("profesores") or []:
         out += f"| {p.get('nombre','—')} | {p.get('dicta','—')} |\n"
 
-    h = curso.get("horarios") or {}
-    out += "\n## Horarios\n\n| Actividad | Código | Sesión | Aula |\n"
-    out += "|-----------|-------:|--------|------|\n"
-    for etiqueta, clave in (("Clase", "clase"), ("Práctica", "practica")):
-        d = h.get(clave) or {}
-        if d:
-            out += (
-                f"| {etiqueta} | {d.get('codigo','—')} | {d.get('sesion','—')} "
-                f"| {d.get('aula','—')} |\n"
-            )
-    for i, lab in enumerate(h.get("laboratorio") or [], 1):
-        out += (
-            f"| Laboratorio {i} | {lab.get('codigo','—')} | {lab.get('sesion','—')} "
-            f"| {lab.get('aula','—')} |\n"
+    def fila(etiqueta, d):
+        return (
+            f"| {etiqueta} | {d.get('codigo','—')} | {d.get('dia','—')} "
+            f"| {d.get('horas','—')} | {d.get('secuencia','—')} | {d.get('aula','—')} |\n"
         )
-    ex = h.get("examen") or {}
-    if ex:
-        out += f"| Examen | — | {ex.get('sesion','—')} | {ex.get('aula','—')} |\n"
 
-    out += (
-        "\nConsulta en Paideia el laboratorio que te corresponde y quién es tu jefe de "
-        "práctica.\n"
-    )
+    h = curso.get("horarios") or {}
+    out += "\n## Horarios\n\n| Actividad | Código | Día | Hora | Secuencia | Aula |\n"
+    out += "|-----------|-------:|-----|------|:---------:|------|\n"
+    for etiqueta, clave in (("Clase", "clase"), ("Práctica", "practica")):
+        if h.get(clave):
+            out += fila(etiqueta, h[clave])
+    for lab in h.get("laboratorio") or []:
+        out += fila(f"Laboratorio {lab.get('codigo','')}", lab)
+    if h.get("examen"):
+        out += fila("Examen", h["examen"])
+
+    out += """
+::: {.callout-important}
+## Qué significa la secuencia
+
+La **clase** es secuencia C: se dicta **todas las semanas**.
+
+La **práctica** y el **laboratorio** son quincenales y se reparten en dos secuencias que se
+alternan: la **A** va en las semanas impares y la **B** en las pares. Si tu laboratorio es
+secuencia B, te toca una semana sí y otra no — revisa el
+[calendario](calendario.qmd) para no presentarte el día equivocado.
+:::
+
+Consulta en Paideia el laboratorio que te corresponde y quién es tu jefe de práctica.
+"""
 
     ev = curso.get("evaluacion") or {}
     out += "\n## Sistema de evaluación\n\n"

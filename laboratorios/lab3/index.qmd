@@ -1,0 +1,46 @@
+---
+title: "Laboratorio 3 — Presentacion parcial del proyecto + prueba"
+curso: "MÁQUINAS ELÉCTRICAS"
+semestre: "Segundo semestre 2026"
+format:
+  html: default
+  pdf: default
+---
+
+::: {.content-visible when-format="html"}
+::: {.callout-warning}
+## Guía pendiente de contenido
+La estructura, los puntajes y las reglas ya son los correctos. Falta el desarrollo técnico:
+objetivos, equipos, procedimiento de ensayo y tablas de datos.
+
+Deja la guía del ciclo anterior en `_entrada/laboratorios/` **en Word** y se convierte.
+:::
+:::
+
+## Qué se evalúa en esta sesión
+
+Esta sesión **no es un ensayo de laboratorio**: es la presentación parcial del proyecto y la
+prueba parcial de laboratorio.
+
+### Prueba de laboratorio
+
+La prueba se basa en las guías de los **dos laboratorios previos** (incluida la guía de
+LVSIM), el contenido de las sesiones de clase, los capítulos correspondientes del libro de
+texto y el desarrollo del laboratorio indicado en Paideia.
+
+::: {.callout-important}
+La nota de esta prueba **no se registra aquí**: se reparte entre los laboratorios
+1 y 2, 8 puntos en cada uno.
+:::
+
+### Presentación del proyecto
+
+_(Pendiente: criterios de la presentación. Ver la guía del proyecto.)_
+
+## Entrega
+
+| Qué | Fecha límite (referencia 2026-1) |
+|---|---|
+| Presentacion parcial e informe parcial | 2026-05-15 |
+
+: Las fechas de 2026-2 están por confirmar.

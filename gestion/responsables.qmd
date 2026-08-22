@@ -16,17 +16,28 @@ Generado automáticamente desde `silabo/curso.yml`. **No editar a mano** — se 
 
 ## Horarios
 
-| Actividad | Código | Sesión | Aula |
-|-----------|-------:|--------|------|
-| Clase | 811 | SAB 15:00-18:00 | C N422 |
-| Práctica | 811 | LUN 16:00-18:00 | A H412 |
-| Laboratorio 1 | 811 | JUE 15:00-18:00 | B U109 |
-| Laboratorio 2 | 812 | LUN 14:00-17:00 | B U109 |
-| Laboratorio 3 | 814 | SAB 11:00-14:00 | A U109 |
-| Laboratorio 4 | 815 | LUN 17:00-20:00 | B U109 |
-| Laboratorio 5 | 816 | MAR 17:00-20:00 | B U109 |
-| Laboratorio 6 | 817 | MIE 17:00-20:00 | A U109 |
-| Examen | — | JUE 15:00-18:00 | E P201 |
+| Actividad | Código | Día | Hora | Secuencia | Aula |
+|-----------|-------:|-----|------|:---------:|------|
+| Clase | 811 | SAB | 15:00-18:00 | C | N422 |
+| Práctica | 811 | LUN | 16:00-18:00 | A | H412 |
+| Laboratorio 811 | 811 | JUE | 15:00-18:00 | B | U109 |
+| Laboratorio 812 | 812 | LUN | 14:00-17:00 | B | U109 |
+| Laboratorio 814 | 814 | SAB | 11:00-14:00 | A | U109 |
+| Laboratorio 815 | 815 | LUN | 17:00-20:00 | B | U109 |
+| Laboratorio 816 | 816 | MAR | 17:00-20:00 | B | U109 |
+| Laboratorio 817 | 817 | MIE | 17:00-20:00 | A | U109 |
+| Examen | — | JUE | 15:00-18:00 | E | P201 |
+
+::: {.callout-important}
+## Qué significa la secuencia
+
+La **clase** es secuencia C: se dicta **todas las semanas**.
+
+La **práctica** y el **laboratorio** son quincenales y se reparten en dos secuencias que se
+alternan: la **A** va en las semanas impares y la **B** en las pares. Si tu laboratorio es
+secuencia B, te toca una semana sí y otra no — revisa el
+[calendario](calendario.qmd) para no presentarte el día equivocado.
+:::
 
 Consulta en Paideia el laboratorio que te corresponde y quién es tu jefe de práctica.
 
