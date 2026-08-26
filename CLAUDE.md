@@ -23,6 +23,30 @@ Antonio Romero Jiménez, que dicta desde el parcial.
 > y en el repositorio privado. Si clonaste el repo público y no ves esa carpeta, es correcto:
 > guíate por este archivo y por `silabo/curso.yml`.
 
+## El material vive en Google Drive, no en el disco
+
+El Drive del profesor está montado con rclone en `~/cursos/drive-pucp` y se ve como una
+carpeta normal. Los archivos **se descargan solo cuando se abren**; no hay copias locales.
+
+```
+~/cursos/drive-pucp/
+├── 2025-2/  2026-1/  BACK-UP/
+└── 2026-2/                      ← ciclo actual
+    ├── ...ALUMNOS/              material que ven los alumnos
+    └── ...DOCENTES/             listas, horarios, guías de laboratorio
+```
+
+- Servicio: `drive-pucp.service` (systemd de usuario). Arranca solo al iniciar sesión.
+  Comprobar: `systemctl --user status drive-pucp.service`
+- **Solo lectura**, a propósito: no se puede modificar ni borrar nada del Drive por error.
+- Cache limitada a 1 GB en `~/.cache/rclone`, se purga sola a las 24 h.
+- `_entrada/drive` es un enlace simbólico al montaje. **`find` no sigue enlaces**: usa la
+  ruta real `~/cursos/drive-pucp` o `find -L`.
+
+**Trampa conocida:** tres archivos del Drive fueron editados en Google Sheets y quedan con
+tamaño desconocido — el montaje los lista pero al leerlos devuelve 0 bytes. `scripts/importar.py`
+lo detecta y los baja con `rclone cat` a un temporal que borra al terminar.
+
 ## Reglas del proyecto
 
 - **`silabo/curso.yml` es la fuente única.** Pesos, capítulos, sesiones, alumnos y fechas

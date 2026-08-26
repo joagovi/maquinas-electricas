@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 """Importa la informacion interna del curso a silabo/interno.yml.
 
-Lee dos Excel que da el campus y los deja en un YAML manejable:
+Lee dos Excel directamente del Google Drive montado (~/cursos/drive-pucp) y los
+deja en un YAML manejable:
 
-  _entrada/listas/*.xlsx          lista de matriculados
-  silabo/HORARIO*.xlsx            horarios de clase, practica y laboratorio,
-                                  con profesores y jefes de practica
+  .../Alumnos *.xlsx     lista de matriculados
+  .../HORARIO *.xlsx     horarios de clase, practica y laboratorio, con
+                         profesores y jefes de practica
+
+No se copia nada al disco: el Drive se lee bajo demanda. Si el Drive no esta
+montado, se usan como respaldo _entrada/listas/ y silabo/.
 
 De los alumnos extrae SOLO codigo, nombre y horario. Descarta correos, seguros y
 cualquier otra columna: no hacen falta y no queremos esos datos circulando.
@@ -19,8 +23,12 @@ Uso:
 
 from __future__ import annotations
 
+import atexit
+import os
 import re
+import subprocess
 import sys
+import tempfile
 import unicodedata
 from pathlib import Path
 
@@ -33,6 +41,86 @@ except ImportError:
 RAIZ = Path(__file__).resolve().parent.parent
 LISTAS = RAIZ / "_entrada" / "listas"
 SALIDA = RAIZ / "silabo" / "interno.yml"
+
+# Google Drive montado con rclone (servicio drive-pucp.service). El material
+# vive ahi: no se duplica nada en el disco.
+DRIVE = Path.home() / "cursos" / "drive-pucp"
+CICLO = "2026-2"
+ROOT_ID = "1U28ia49D2zIV0FsbQNgNq0T8zjkrsfZz"
+
+# Temporales con datos de alumnos: se borran siempre al terminar, pase lo que pase.
+_TEMPORALES: list[Path] = []
+
+
+@atexit.register
+def _limpiar_temporales() -> None:
+    for t in _TEMPORALES:
+        try:
+            t.unlink(missing_ok=True)
+        except OSError:
+            pass
+
+
+def buscar_en_drive(patron: str) -> list[Path]:
+    """Busca por nombre dentro de la carpeta del ciclo en el Drive montado."""
+    base = DRIVE / CICLO
+    if not base.is_dir():
+        return []
+    return sorted(
+        p
+        for p in base.rglob(patron)
+        if p.is_file() and not p.name.startswith("~$")
+    )
+
+
+def localizar(patron: str, carpeta_local: Path) -> list[Path]:
+    """Drive primero; si no esta montado, la carpeta local de respaldo."""
+    if encontrados := buscar_en_drive(patron):
+        return encontrados
+    if carpeta_local.is_dir():
+        return sorted(p for p in carpeta_local.glob(patron) if not p.name.startswith("~$"))
+    return []
+
+
+def materializar(ruta: Path) -> Path:
+    """Devuelve una ruta legible de verdad.
+
+    Algunos archivos del Drive fueron editados en Google Sheets y quedan con
+    tamano desconocido: el montaje los muestra pero al leerlos devuelve 0 bytes.
+    En ese caso se descargan a un temporal con `rclone cat`, que si funciona.
+    """
+    if ruta.stat().st_size > 0:
+        return ruta
+
+    relativa = ruta.relative_to(DRIVE)
+    # Temporal con permisos 600 y borrado al terminar: estos archivos llevan
+    # nombres de alumnos y no deben quedarse en /tmp.
+    fd, nombre_tmp = tempfile.mkstemp(prefix="importar-", suffix=ruta.suffix)
+    os.close(fd)
+    destino = Path(nombre_tmp)
+    destino.chmod(0o600)
+    _TEMPORALES.append(destino)
+    print(f"    (0 bytes por el montaje; descargando con rclone: {ruta.name})")
+
+    with destino.open("wb") as fh:
+        res = subprocess.run(
+            [
+                str(Path.home() / ".local" / "bin" / "rclone"),
+                "cat",
+                f"pucp:{relativa.as_posix()}",
+                "--drive-root-folder-id",
+                ROOT_ID,
+            ],
+            stdout=fh,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+    if res.returncode != 0 or destino.stat().st_size == 0:
+        raise RuntimeError(
+            f"No pude leer {ruta.name} ni por el montaje ni con rclone.\n"
+            f"    {res.stderr.decode('utf-8', 'ignore')[:200]}"
+        )
+    return destino
 
 RE_CODIGO = re.compile(r"^\s*(\d{8})(?:\.0)?\s*$")
 
@@ -96,7 +184,7 @@ def fila_encabezado(filas: list[tuple], marcador: str) -> int:
 
 
 def importar_horarios(ruta: Path) -> dict:
-    ws = openpyxl.load_workbook(ruta, data_only=True).worksheets[0]
+    ws = openpyxl.load_workbook(materializar(ruta), data_only=True).worksheets[0]
     filas = list(ws.iter_rows(values_only=True))
 
     i_enc = fila_encabezado(filas, "Tipo Hor.")
@@ -125,7 +213,7 @@ def importar_horarios(ruta: Path) -> dict:
 
 
 def importar_alumnos(ruta: Path) -> list[dict]:
-    ws = openpyxl.load_workbook(ruta, data_only=True).worksheets[0]
+    ws = openpyxl.load_workbook(materializar(ruta), data_only=True).worksheets[0]
     filas = list(ws.iter_rows(values_only=True))
 
     try:
@@ -165,9 +253,13 @@ def importar_alumnos(ruta: Path) -> list[dict]:
 def main() -> int:
     datos: dict = {}
 
-    horarios_xlsx = sorted(
-        p for p in (RAIZ / "silabo").glob("*.xlsx") if not p.name.startswith("~$")
-    )
+    if DRIVE.is_dir():
+        print(f"[i] Leyendo del Drive montado: {DRIVE / CICLO}")
+    else:
+        print(f"[!] Drive NO montado en {DRIVE}. Uso las carpetas locales.")
+        print("    Para montarlo:  systemctl --user start drive-pucp.service")
+
+    horarios_xlsx = localizar("*HORARIO*.xlsx", RAIZ / "silabo")
     if horarios_xlsx:
         datos["horarios"] = importar_horarios(horarios_xlsx[0])
         print(f"[ok] {horarios_xlsx[0].name}")
@@ -176,7 +268,7 @@ def main() -> int:
     else:
         print("[!] No hay Excel de horarios en silabo/.")
 
-    listas = sorted(p for p in LISTAS.glob("*.xlsx") if not p.name.startswith("~$"))
+    listas = localizar("*Alumnos*.xlsx", LISTAS)
     if listas:
         datos["alumnos"] = importar_alumnos(listas[0])
         print(f"[ok] {listas[0].name}: {len(datos['alumnos'])} alumnos")

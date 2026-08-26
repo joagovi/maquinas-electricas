@@ -1,42 +1,126 @@
 ---
 title: "Sesión 1 — Circuitos magnéticos"
-subtitle: "Ley de Gauss magnética y ley de Ampère"
+subtitle: "Revisión del electromagnetismo y analogía con circuitos eléctricos"
 curso: "MÁQUINAS ELÉCTRICAS"
 semestre: "Segundo semestre 2026"
 format:
   html:
     toc: true
+    toc-depth: 3
 ---
 
-Todo lo de este curso —generadores, motores síncronos, de inducción, de continua— se apoya en
-lo mismo: **una corriente crea un campo magnético, y ese campo se cierra por un camino de
-hierro con un entrehierro**. Hoy montamos esa herramienta.
+::: {.callout-note appearance="minimal"}
+Esta página **acompaña** a las diapositivas de la sesión, no las reemplaza. Aquí están las
+ideas centrales, la calculadora interactiva y las misiones del Vibequest, para que puedas
+volver sobre ellas después de clase.
+:::
 
-## Las dos leyes que necesitamos
+## Índice de la sesión
 
-### Ley de Gauss magnética: el flujo no se pierde
+1. Presentación del curso
+2. Motivación: generación, transmisión, distribución y consumo
+3. Revisión del electromagnetismo: ley de Ampère, intensidad de campo $H$, densidad de flujo
+   $B$ y flujo magnético $\Phi$
+4. Circuitos magnéticos
 
-$$\oint_S \vec{B} \cdot d\vec{S} = 0$$
+---
 
-No existen monopolos: todo lo que entra a una superficie cerrada, sale. En un núcleo sin
-ramificaciones esto significa algo muy práctico:
+## 1. Presentación del curso
 
-$$\Phi = \text{constante en todo el circuito}$$
+Sílabo, cronograma y formas de comunicación. Todo el material del curso vive en este sitio:
 
-El mismo flujo atraviesa el hierro y el entrehierro. Si el área cambia, cambia $B$, pero
-$\Phi$ no.
+- [Calendario del ciclo](../../gestion/calendario.qmd) — qué toca cada sábado
+- [Horarios y evaluación](../../gestion/responsables.qmd) — cómo se calcula la nota
+- [Exposiciones en clase](../../exposiciones/reglas.qmd) — cómo funcionan y cuánto suman
 
-### Ley de Ampère: quién crea el campo
+## 2. Motivación
+
+Todo sistema de potencia tiene tres componentes mayores:
+
+| Componente | Qué hace |
+|---|---|
+| **Generación** | Fuente de potencia, caracterizada por su tensión y frecuencia |
+| **Transmisión y distribución** | Lleva la energía desde la generación hasta el consumo |
+| **Carga** | Consume potencia |
+
+Y en la realidad, tres complicaciones que atravesarán todo el curso:
+
+- No existe una **fuente de tensión ideal**.
+- Las **cargas rara vez son constantes**.
+- Un sistema de transmisión tiene **resistencia e inductancia**.
+
+Desde la represa de Itaipú —16 m de diámetro, 91 rpm, un rotor de 2650 toneladas— hasta el
+motor del ventilador de tu casa, todo lo que veremos son las mismas leyes a distinta escala.
+
+## 3. Revisión del electromagnetismo
+
+### 3.1 Producción de campo magnético
+
+Cuando una corriente circula por un conductor, aparece un campo magnético que lo rodea. Su
+dirección se obtiene con la **regla de la mano derecha**, y las líneas de campo son
+perpendiculares al conductor.
+
+### 3.2 Ley de Ampère e intensidad de campo $H$
+
+La integral de línea de $\vec{H}$ a lo largo de un camino cerrado es igual a la corriente
+encerrada:
 
 $$\oint_C \vec{H} \cdot d\vec{l} = N I$$
 
-Recorriendo el circuito por dentro del hierro, con $H$ uniforme en cada tramo:
+Para un conductor recto muy largo, a una distancia $r$:
 
-$$H_{Fe}\, l_{Fe} + H_g\, l_g = N I$$
+$$H = \frac{I}{2\pi r}$$
 
-El producto $NI$ se llama **fuerza magnetomotriz** (fmm) y se mide en amperio-vuelta.
+- $H$ se mide en **A/m** (o A·esp/m cuando hay $N$ vueltas).
+- Es **directamente proporcional** a la corriente y al número de vueltas.
+- Es **inversamente proporcional** a la distancia.
+- **$H$ no depende del medio.**
 
-### La analogía que lo hace fácil
+En una espira, cada elemento infinitesimal contribuye al campo. Un solenoide es una suma de
+espiras apiladas: en el interior los campos se suman y el resultado es aproximadamente
+uniforme; en el exterior se anulan.
+
+### 3.3 Densidad de flujo magnético $B$
+
+$$\vec{B} = \mu \vec{H} = \mu_0 \mu_r \vec{H}$$
+
+donde $\mu_0 = 4\pi \times 10^{-7}$ H/m es la permeabilidad del vacío.
+
+::: {.callout-important}
+**$B$ depende del medio; $H$ no.** Esta distinción es la que hace que un núcleo de hierro
+multiplique el campo de un solenoide por cientos o miles de veces sin cambiar $H$.
+:::
+
+### 3.4 Flujo magnético $\Phi$
+
+El flujo a través de una superficie es
+
+$$\Phi = \int_S \vec{B} \cdot d\vec{S}$$
+
+y por la **ley de Gauss magnética** no existen monopolos:
+
+$$\oint_S \vec{B} \cdot d\vec{S} = 0$$
+
+Consecuencia práctica: en un núcleo sin ramificaciones, **el flujo es el mismo en todo el
+circuito**. Si el área cambia, cambia $B$, pero $\Phi$ no.
+
+### Electroimán frente a imán permanente
+
+| | Ventaja | Desventaja |
+|---|---|---|
+| **Electroimán** | Se controla el campo producido | Riesgo de cortocircuitos; necesita alimentación |
+| **Imán permanente** | No necesita alimentación | El campo no se puede regular |
+
+---
+
+## 4. Circuitos magnéticos
+
+### La fuerza magnetomotriz
+
+La cantidad responsable de la intensidad del campo es $NI$, la **fuerza magnetomotriz** (fmm),
+medida en amperio-vuelta.
+
+### La analogía con los circuitos eléctricos
 
 Con $B = \mu H$ y $\Phi = BA$, la ley de Ampère se reescribe como una ley de Ohm:
 
@@ -47,20 +131,30 @@ $$\mathcal{F} = \Phi \cdot \mathcal{R}, \qquad \mathcal{R} = \frac{l}{\mu A}$$
 | Tensión $V$ | Fuerza magnetomotriz $\mathcal{F} = NI$ |
 | Corriente $I$ | Flujo $\Phi$ |
 | Resistencia $R = \dfrac{l}{\sigma A}$ | Reluctancia $\mathcal{R} = \dfrac{l}{\mu A}$ |
+| Conductividad $\sigma$ | Permeabilidad $\mu$ |
 | Resistencias en serie se suman | Reluctancias en serie se suman |
 
 ::: {.callout-warning}
-## La analogía tiene un límite
+## Dónde se rompe la analogía
 
-En un circuito eléctrico, $\sigma$ es constante. En uno magnético, $\mu$ **depende de $B$**:
+En un circuito eléctrico $\sigma$ es constante. En uno magnético **$\mu$ depende de $B$**:
 cuando el hierro se satura, $\mu$ se desploma y la reluctancia se dispara. Por eso el circuito
-magnético es no lineal y el eléctrico no. Volveremos sobre esto al final.
+magnético es no lineal. Volvemos sobre esto al final.
 :::
 
-## Manos a la obra
+### El entrehierro
 
-Un núcleo de hierro con $N$ vueltas y un entrehierro de longitud $l_g$. Mueve los controles y
-observa qué pasa.
+En un núcleo con entrehierro, el flujo es el mismo en el hierro y en el aire, pero como
+$\mu_{aire} \ll \mu_{Fe}$, la caída de fmm se reparte de forma muy desigual.
+
+**Efecto marginal:** en el entrehierro las líneas de campo se abomban hacia afuera, así que el
+área efectiva es mayor que la del núcleo.
+
+---
+
+## Calculadora interactiva
+
+Un núcleo de hierro con $N$ vueltas y un entrehierro de longitud $l_g$. Mueve los controles.
 
 ```{ojs}
 //| echo: false
@@ -77,16 +171,16 @@ viewof lado = Inputs.range([2, 15],   {value: 10,   step: 0.5, label: "Lado de l
 //| echo: false
 mu0 = 4 * Math.PI * 1e-7
 
-A    = Math.pow(lado / 100, 2)      // seccion en m²
-lg_m = lg / 1000                     // entrehierro en m
+A    = Math.pow(lado / 100, 2)
+lg_m = lg / 1000
 
 R_Fe = lFe / (mu0 * mur * A)
 R_g  = lg_m / (mu0 * A)
 R_t  = R_Fe + R_g
 
 fmm  = N * I
-flujo = fmm / R_t                    // Wb
-B     = flujo / A                    // T  (misma seccion => mismo B)
+flujo = fmm / R_t
+B     = flujo / A
 H_Fe  = B / (mu0 * mur)
 H_g   = B / mu0
 
@@ -128,7 +222,6 @@ Plot.plot({
   title: `El entrehierro se lleva el ${d3.format(".1f")(pct_g)}% de la reluctancia total`,
   height: 130, marginLeft: 90,
   x: {label: "Reluctancia (A·v/Wb)", grid: true},
-  color: {legend: false},
   marks: [
     Plot.barX(
       [{parte: "Hierro", valor: R_Fe}, {parte: "Entrehierro", valor: R_g}],
@@ -143,35 +236,76 @@ Plot.plot({
 ## Lo que hay que llevarse de aquí
 
 Pon el entrehierro en **0 mm** y súbelo poco a poco. Con 1 mm de aire frente a 60 cm de
-hierro —**600 veces más corto**— el entrehierro ya se lleva la mayor parte de la reluctancia.
+hierro —**600 veces más corto**— el entrehierro ya se lleva el 83 % de la reluctancia.
 
 La razón está en $\mu$: el hierro tiene $\mu_r \approx 3000$, el aire tiene 1. Ese factor de
 3000 pesa mucho más que la diferencia de longitudes.
 
-**Consecuencia para el resto del curso:** en una máquina real, el entrehierro es lo que fija
-cuánta corriente de excitación hace falta. Diseñar una máquina es, en buena medida, pelear
-con ese milímetro de aire.
+**Consecuencia para el resto del curso:** en una máquina real, el entrehierro fija cuánta
+corriente de excitación hace falta. Diseñar una máquina es, en buena medida, pelear con ese
+milímetro de aire.
 
-**Y una trampa a propósito:** con el entrehierro exactamente en 0, la calculadora dice más de
-10 T. Ningún hierro llega a eso. Ahí el modelo lineal se rompe, y esa ruptura es justo lo que
-estudiaremos con la curva de saturación.
+**Y una trampa a propósito:** con el entrehierro exactamente en 0, la calculadora pasa de
+10 T. Ningún hierro llega a eso. Ahí el modelo lineal se rompe.
 :::
 
-## Preguntas para discutir en clase
+## Saturación: el modelo lineal por tramos
 
-1. Sube $\mu_r$ de 500 a 6000 con el entrehierro en 0. Ahora repítelo con el entrehierro en
-   1 mm. ¿Por qué la calidad del hierro casi deja de importar?
-2. Con $N I$ fijo, ¿qué le pasa a $B$ si duplicas la sección? ¿Y al flujo?
-3. Si $B$ pasa de 1.8 T el núcleo se satura y $\mu_r$ cae. ¿Qué habría que corregir en este
-   modelo para que sea creíble por encima de ese valor?
-4. ¿Por qué el flujo es el mismo en el hierro y en el aire, pero $H$ no?
+La relación entre $B$ y $H$ en un material magnético es **altamente no lineal**. Usamos tres
+niveles de aproximación, de más simple a más realista:
+
+1. **Sin histéresis ni saturación** — $\mu_r$ constante. Es el modelo de la calculadora, y el
+   que usaremos casi siempre.
+2. **Sin histéresis pero con saturación** — $\mu_r$ cae a partir de cierto $B$.
+3. **Con histéresis** — la curva de subida no coincide con la de bajada.
+
+---
+
+## Vibequest de la sesión 1
+
+::: {.callout-tip}
+## De qué va esto
+
+Cada misión consiste en **generar una animación en Python** que muestre un fenómeno del
+curso. Se presenta en clase y suma sobre la práctica calificada de esta unidad — revisa las
+[reglas de exposición](../../exposiciones/reglas.qmd).
+
+**El uso de IA está permitido y además debe declararse.** El sílabo exige declarar y citar
+las herramientas de IA generativa que uses, con el reporte de prompts como anexo. Guarda tus
+prompts desde el principio: reconstruirlos al final es mucho peor.
+:::
+
+### Vibequest 1 — El Despertar del Hierro
+
+**El efecto del núcleo.**
+
+Genera una animación que muestre un solenoide con núcleo de aire y líneas de campo débiles.
+Luego introduce un núcleo ferromagnético y anima cómo la densidad de flujo $B$ se multiplica
+drásticamente por efecto de $\mu_r$, absorbiendo y concentrando las líneas de flujo.
+
+### Vibequest 2 — El Salto al Vacío
+
+**El entrehierro y el efecto marginal.**
+
+Modela un núcleo magnético en forma de **C**. La animación debe mostrar cómo el flujo viaja
+confinado por el hierro y, al llegar al entrehierro, las líneas se abomban hacia afuera
+(efecto marginal). Ilustra por qué el área efectiva del entrehierro es mayor y cómo eso
+aumenta la reluctancia del sistema.
+
+### Vibequest 3 — La Construcción del Campo
+
+**De la línea al solenoide.**
+
+Crea una animación evolutiva en tres pasos: un conductor recto con su campo circular; ese
+conductor curvado en una espira, mostrando cómo los campos de cada segmento se suman en el
+centro; y finalmente varias espiras apiladas, para demostrar por qué en el interior de un
+solenoide el campo es fuerte y uniforme mientras que en el exterior se anula.
+
+---
 
 ## Ejercicio para la próxima sesión
 
 ::: {.callout-note}
-Este es el ejercicio que se expone al inicio de la próxima clase (ver las
-[reglas de exposición](../../exposiciones/reglas.qmd)).
-
 Un circuito magnético con **dos bobinas y dos entrehierros** $g_1 = g_2 = 0.1$ cm. Todas las
 ramas tienen 10 cm de espesor y 10 cm de profundidad. La bobina $F_1$ tiene 1000 vueltas y
 conduce 1.6 A. La permeabilidad relativa del núcleo es 3000 y se desprecian los flujos
@@ -183,12 +317,10 @@ b) Calcula la corriente por $F_2$ si tiene 1000 vueltas, e indica $B$ y $H$ en e
    y en cada rama.
 :::
 
-## Para la casa
+**Antes de resolverlo a mano**, usa la calculadora para estimar el orden de magnitud. Si tu
+resultado analítico se aleja mucho, revisa antes de entregar.
 
-- **Sanity check con la calculadora de arriba**: antes de resolver el ejercicio a mano,
-  estima el orden de magnitud moviendo los controles. Si tu resultado analítico se aleja
-  mucho, revisa antes de entregar.
-- En la [primera práctica dirigida](../../dirigidas/pd1-femm/index.qmd) resolveremos este
-  mismo tipo de problema **en FEMM**, que en vez de suponer $H$ uniforme por tramo resuelve el
-  campo en todo el dominio. Compararás ambos resultados: ahí se ve cuánto error mete la
-  hipótesis de circuito magnético.
+En la [primera práctica dirigida](../../dirigidas/pd1-femm/index.qmd) resolveremos este mismo
+tipo de problema **en FEMM**, que en vez de suponer $H$ uniforme por tramo resuelve el campo
+en todo el dominio. Compararás ambos resultados: ahí se ve cuánto error mete la hipótesis de
+circuito magnético.
