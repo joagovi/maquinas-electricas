@@ -25,6 +25,8 @@ website:
         menu:
           - href: teoria/cap1-circuitos-magneticos/index.qmd
             text: "Sesión 1 — Circuitos magnéticos"
+          - href: teoria/cap2-ac-conversion-y-maquina-dc/index.qmd
+            text: "Sesión 2 — AC, conversión y máquina DC"
       - text: Dirigidas
         menu:
           - href: dirigidas/pd1-femm/index.qmd

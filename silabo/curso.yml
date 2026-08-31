@@ -123,7 +123,7 @@ evaluacion:
 # Es la mejor referencia disponible hasta que llegue el silabo 2026-2.
 capitulos:
   - {id: cap1, titulo: "Introduccion y circuitos magneticos",        semana_2026_1: 1, carpeta: teoria/cap1-circuitos-magneticos}
-  - {id: cap2, titulo: "Circuitos magneticos en AC",                 semana_2026_1: 3, carpeta: teoria/cap2-circuitos-ac}
+  - {id: cap2, titulo: "Excitacion en AC, conversion electromecanica y maquina DC", semana: 2, carpeta: teoria/cap2-ac-conversion-y-maquina-dc}
   - {id: cap3, titulo: "Generador sincrono y sus ensayos",           semana_2026_1: 4, carpeta: teoria/cap3-generador-sincrono}
   - {id: cap4, titulo: "Motor sincrono: principios y arranque",      semana_2026_1: 6, carpeta: teoria/cap4-motor-sincrono}
   - {id: cap5, titulo: "Motor de induccion",                         semana_2026_1: 7, carpeta: teoria/cap5-motor-induccion}
