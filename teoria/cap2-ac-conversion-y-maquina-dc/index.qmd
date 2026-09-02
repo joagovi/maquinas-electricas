@@ -84,10 +84,15 @@ magnético uniforme. Anima el arranque completo desde el reposo:
 
 Muestra en gráficas sincronizadas $v(t)$, $i(t)$, $F(t)$ y $e(t)$ mientras la barra se mueve.
 
-**La segunda mitad es lo importante:** ahora **empuja la barra a mano** por encima de esa
-velocidad. La fem supera a la fuente, la corriente **cambia de signo**, la fuerza se vuelve
-frenante y la máquina **entrega** energía. El mismo dispositivo, sin tocar nada, pasó de motor
-a generador. Que la animación deje ver el instante exacto en que la corriente cruza por cero.
+Con eso la misión está cumplida: **basta con que funcione como motor**.
+
+**Para subir de nivel:** añade una **fuerza de carga** que se oponga al movimiento y observa
+cómo la barra se estabiliza a menor velocidad, con corriente permanente en vez de casi nula.
+
+**Y si quieres ir más lejos:** **empuja la barra a mano** por encima de la velocidad de
+equilibrio. La fem supera a la fuente, la corriente **cambia de signo**, la fuerza se vuelve
+frenante y la máquina **entrega** energía: el mismo dispositivo, sin tocar nada, pasó de motor
+a generador. Deja ver el instante exacto en que la corriente cruza por cero.
 
 ## Vibequest 6 — Rectificación mecánica en la máquina DC
 
