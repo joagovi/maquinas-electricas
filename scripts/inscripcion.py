@@ -87,7 +87,9 @@ def main() -> int:
             italic=True, size=9, color="C00000" if "ROJO" in r else "404040")
         ws.merge_cells(start_row=i, start_column=1, end_row=i, end_column=6)
 
-    fila = 7
+    # Arranca despues de las reglas + una linea en blanco. Calculado, no fijo:
+    # con un numero fijo, anadir una regla mas invadia las celdas combinadas.
+    fila = 2 + len(reglas) + 1
     celdas = []
     for s in ses:
         f = fecha_de(s)
@@ -166,7 +168,7 @@ def main() -> int:
         ws.conditional_formatting.add(cd, FormulaRule(
             formula=[f'AND({cd}<>"",COUNTIF(Inscripción!$B:$B,{cd})>1)'], fill=ROJO))
 
-    ws.freeze_panes = "A7"
+    ws.freeze_panes = f"A{2 + len(reglas) + 1}"
     salida = Path(sys.argv[1]) if len(sys.argv) > 1 else RAIZ / "Vibequest - inscripcion.xlsx"
     wb.save(salida)
 
