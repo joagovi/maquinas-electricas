@@ -66,23 +66,25 @@ def main() -> int:
     wb = Workbook()
     ws = wb.active
     ws.title = "Inscripción"
-    for col, ancho in zip("ABCD", (6, 14, 46, 32)):
+    for col, ancho in zip("ABCDEF", (5, 13, 38, 40, 40, 26)):
         ws.column_dimensions[col].width = ancho
 
     ws["A1"] = f'Vibequest — inscripción de exposiciones · {curso["codigo"]} {curso["ciclo"]}'
     ws["A1"].font = Font(bold=True, size=14, color="1F4E79")
-    ws.merge_cells("A1:D1")
+    ws.merge_cells("A1:F1")
 
     reglas = [
         "Escribe tu CÓDIGO en la columna B; el nombre aparece solo. Elige la FECHA que te convenga:",
         f"el tema es el de esa semana. Hay {por} cupos por sesión, {cfg['minutos_por_alumno']} minutos por persona más preguntas.",
         f"Exponer SUMA hasta {cfg['bonus']['maximo']} puntos sobre la práctica calificada de esa unidad. No exponer no penaliza.",
         "Si tu código sale en ROJO es que está repetido: ya te inscribiste en otra sesión.",
+        "Pega el enlace a tu Colab y a la conversación con la IA. Ambos deben quedar VISIBLES "
+        "('cualquiera con el enlace') hasta que se publique la nota.",
     ]
     for i, r in enumerate(reglas, start=2):
         ws.cell(row=i, column=1, value=r).font = Font(
             italic=True, size=9, color="C00000" if "ROJO" in r else "404040")
-        ws.merge_cells(start_row=i, start_column=1, end_row=i, end_column=4)
+        ws.merge_cells(start_row=i, start_column=1, end_row=i, end_column=6)
 
     fila = 7
     celdas = []
@@ -99,13 +101,16 @@ def main() -> int:
         else:
             etiqueta = f"{por} cupos"
         ws.cell(row=fila, column=4, value=etiqueta)
-        for col in range(1, 5):
+        ws.cell(row=fila, column=5, value="")
+        for col in range(1, 7):
             cc = ws.cell(row=fila, column=col)
             cc.fill = GRIS if pasada else AZUL
             cc.font = Font(bold=True, color="404040" if pasada else "FFFFFF")
         fila += 1
 
-        for col, h in enumerate(["#", "Código", "Nombre (se completa solo)", ""], 1):
+        encabezados = ["#", "Código", "Nombre (se completa solo)",
+                       "Enlace a tu Colab", "Enlace a la conversación con IA", ""]
+        for col, h in enumerate(encabezados, 1):
             cc = ws.cell(row=fila, column=col, value=h)
             cc.font = Font(bold=True, size=9)
             cc.fill = AMBAR
@@ -122,7 +127,7 @@ def main() -> int:
             cel.border = BORDE
             if pasada:
                 cel.fill = VERDE
-                ws.cell(row=fila, column=4, value="← anotar quién expuso").font = Font(
+                ws.cell(row=fila, column=6, value="← anotar quién expuso").font = Font(
                     italic=True, size=8, color="808080")
             celdas.append((f"B{fila}", pasada))
             form = ws.cell(row=fila, column=3)
@@ -130,6 +135,8 @@ def main() -> int:
                           f'IF(B{fila}="","","código no encontrado"))')
             form.border = BORDE
             form.font = Font(size=10)
+            for col in (4, 5):
+                ws.cell(row=fila, column=col).border = BORDE
             fila += 1
         fila += 1
 
