@@ -122,7 +122,7 @@ evaluacion:
 # de las diapositivas y del documento "Enlaces de Zoom" (grabaciones por semana).
 # Es la mejor referencia disponible hasta que llegue el silabo 2026-2.
 capitulos:
-  - {id: cap1, titulo: "Introduccion y circuitos magneticos",        semana_2026_1: 1, carpeta: teoria/cap1-circuitos-magneticos}
+  - {id: cap1, titulo: "Introduccion y circuitos magneticos",        semana: 1, carpeta: teoria/cap1-circuitos-magneticos}
   - {id: cap2, titulo: "Excitacion en AC, conversion electromecanica y maquina DC", semana: 2, carpeta: teoria/cap2-ac-conversion-y-maquina-dc}
   - {id: cap3, titulo: "Generador sincrono y sus ensayos",           semana_2026_1: 4, carpeta: teoria/cap3-generador-sincrono}
   - {id: cap4, titulo: "Motor sincrono: principios y arranque",      semana_2026_1: 6, carpeta: teoria/cap4-motor-sincrono}
@@ -252,8 +252,10 @@ alumnos: []
 # calendario aparece marcado "T" y no queda claro. Ese unico dia decide si hay
 # 8 o 9 sesiones habiles, y con ello si los turnos de exposicion alcanzan.
 sesiones:
-  - {n: 1, fecha: 2026-08-22, tipo: clase, responsable: JGV, capitulo: cap1}
-  - {n: 2, fecha: 2026-08-29, tipo: clase, responsable: JGV}
+  # `expusieron` = cuantos alumnos ya expusieron su Vibequest en esa sesion.
+  # Lo usa scripts/inscripcion.py para cerrar las sesiones ya dictadas.
+  - {n: 1, fecha: 2026-08-22, tipo: clase, responsable: JGV, capitulo: cap1, expusieron: 0}
+  - {n: 2, fecha: 2026-08-29, tipo: clase, responsable: JGV, capitulo: cap2, expusieron: 3}
   - {n: 3, fecha: 2026-09-05, tipo: clase, responsable: JGV}
   - {n: 4, fecha: 2026-09-12, tipo: clase, responsable: JGV}
   - {n: 5, fecha: 2026-09-19, tipo: clase, responsable: JGV}

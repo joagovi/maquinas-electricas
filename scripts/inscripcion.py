@@ -93,7 +93,12 @@ def main() -> int:
         ws.cell(row=fila, column=1, value=f"Sesión {n}")
         ws.cell(row=fila, column=2, value=bonito(f))
         ws.cell(row=fila, column=3, value=temas.get(n, s.get("tema") or "por definir"))
-        ws.cell(row=fila, column=4, value="YA SE DICTÓ" if pasada else f"{por} cupos")
+        ya = s.get("expusieron")
+        if pasada:
+            etiqueta = "YA SE DICTÓ — sin exposiciones" if ya == 0 else f"YA SE DICTÓ — {ya} expusieron"
+        else:
+            etiqueta = f"{por} cupos"
+        ws.cell(row=fila, column=4, value=etiqueta)
         for col in range(1, 5):
             cc = ws.cell(row=fila, column=col)
             cc.fill = GRIS if pasada else AZUL
@@ -107,7 +112,11 @@ def main() -> int:
             cc.border = BORDE
         fila += 1
 
-        for k in range(1, por + 1):
+        n_filas = (s.get("expusieron") or 0) if pasada else por
+        if pasada and n_filas == 0:
+            fila += 1
+            continue
+        for k in range(1, n_filas + 1):
             ws.cell(row=fila, column=1, value=k).border = BORDE
             cel = ws.cell(row=fila, column=2)
             cel.border = BORDE
