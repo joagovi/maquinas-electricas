@@ -95,14 +95,20 @@ a generador. Que la animación deje ver el instante exacto en que la corriente c
 del campo, tensión inducida), 14 (número de polos).*
 
 **La misión.** Anima una espira girando dentro de un campo magnético y muestra **dos señales
-en paralelo**:
+en paralelo**, medidas en la misma máquina en dos puntos distintos:
 
-- En los **anillos rozantes**: la tensión alterna sinusoidal que realmente se genera.
-- En el **colector con delgas y escobillas**: la misma señal, pero rectificada.
+- **En la espira**, antes del colector: la tensión inducida es **alterna y sinusoidal**.
+- **En las escobillas**, después del colector: la misma tensión, ya **rectificada**.
 
 Lo esencial es que se vea **el instante del cambio de delga**: cuando la espira cruza el plano
-neutro, la polaridad de la bobina se invierte, pero como las escobillas también cambian de
-delga, la salida mantiene el signo. Esa coincidencia es todo el truco.
+neutro, la polaridad de la bobina se invierte, pero en ese mismo instante cada escobilla pasa
+a apoyarse en la otra delga. Las dos inversiones se cancelan y la salida mantiene el signo.
+Esa coincidencia es todo el truco.
+
+::: {.callout-note}
+El colector **no cambia la física**, cambia la conexión. La máquina DC genera alterna por
+dentro; lo continuo aparece recién en los terminales.
+:::
 
 Marca en la animación el plano neutro y resalta el momento de la conmutación.
 
