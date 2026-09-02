@@ -80,6 +80,7 @@ def main() -> int:
         "Si tu código sale en ROJO es que está repetido: ya te inscribiste en otra sesión.",
         "Pega el enlace a tu Colab y a la conversación con la IA. Ambos deben quedar VISIBLES "
         "('cualquiera con el enlace') hasta que se publique la nota.",
+        "Edita SOLO tu fila. Todo cambio queda registrado en el historial de versiones.",
     ]
     for i, r in enumerate(reglas, start=2):
         ws.cell(row=i, column=1, value=r).font = Font(
