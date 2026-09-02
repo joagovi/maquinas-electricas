@@ -119,6 +119,33 @@ Si tu animación se entiende igual como una figura fija, todavía no está lista
 premia es mostrar algo que una diapositiva estática no puede.
 :::
 
+## Con qué hacerlo
+
+Trabaja en **Google Colab**: ya trae todo lo necesario y no tienes que instalar nada. Si
+prefieres tu computadora, sube después el notebook a Colab y comparte el enlace.
+
+| Librería | Cuándo usarla |
+|---|---|
+| **`matplotlib`** con `FuncAnimation` | **La opción por defecto.** Colab ya la trae y alcanza de sobra para estas misiones. Empieza por aquí. |
+| **`manim`** | Si quieres un acabado tipo video. Se instala en Colab con `!pip install manim`, pero pide más tiempo y tiene curva propia. |
+| **`magpylib`** | Si te interesa **calcular** el campo real en vez de dibujarlo. Útil sobre todo para solenoides y líneas de campo. |
+
+::: {{.callout-warning}}
+No empieces eligiendo herramienta. Empieza por decidir **qué quieres que se vea moverse**; la
+librería es lo de menos y `matplotlib` casi siempre basta.
+:::
+
+## Cómo se entrega
+
+En la hoja de inscripción, en tu fila, pega **dos enlaces**: tu **Colab** y la **conversación
+con la IA** que usaste.
+
+::: {{.callout-important}}
+Los dos deben estar en **"cualquiera con el enlace puede ver"** y seguir abiertos hasta que se
+publique la nota. Colab comparte en privado por defecto: revísalo antes de entregar. **Un
+enlace que no abre es una entrega que no llegó.**
+:::
+
 ## Sobre el uso de IA
 
 Puedes usar herramientas de IA generativa para construir tu animación. El sílabo exige
