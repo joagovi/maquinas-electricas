@@ -31,7 +31,7 @@ Sílabo, cronograma y formas de comunicación. Todo el material del curso vive e
 
 - [Calendario del ciclo](../../gestion/calendario.qmd) — qué toca cada sábado
 - [Horarios y evaluación](../../gestion/responsables.qmd) — cómo se calcula la nota
-- [Exposiciones en clase](../../exposiciones/reglas.qmd) — cómo funcionan y cuánto suman
+- [Vibequest](../../exposiciones/reglas.qmd) — cómo inscribirse y cuánto suma
 
 ## 2. Motivación
 
@@ -268,11 +268,11 @@ niveles de aproximación, de más simple a más realista:
 
 Cada misión consiste en **generar una animación en Python** que muestre un fenómeno del
 curso. Se presenta en clase y suma sobre la práctica calificada de esta unidad — revisa las
-[reglas de exposición](../../exposiciones/reglas.qmd).
+[reglas del Vibequest](../../exposiciones/reglas.qmd).
 
-**El uso de IA está permitido y además debe declararse.** El sílabo exige declarar y citar
-las herramientas de IA generativa que uses, con el reporte de prompts como anexo. Guarda tus
-prompts desde el principio: reconstruirlos al final es mucho peor.
+**El uso de IA está permitido y además debe declararse.** Basta con el **enlace a la
+conversación** con la herramienta que usaste. Debe seguir abierto hasta que se publique la
+nota: si lo borras o lo dejas en privado, es como no haberlo entregado.
 :::
 
 ### Vibequest 1 — El Despertar del Hierro

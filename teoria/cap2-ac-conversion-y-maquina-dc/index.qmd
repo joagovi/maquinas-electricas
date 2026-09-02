@@ -38,18 +38,16 @@ Las tres ideas que sostienen todo lo demás:
 
 Cada misión es una **animación en Python** que muestre un fenómeno del curso. Se presenta en
 clase y suma sobre la práctica calificada de esta unidad — ver las
-[reglas de exposición](../../exposiciones/reglas.qmd).
+[reglas del Vibequest](../../exposiciones/reglas.qmd).
 
-**Declara el uso de IA.** El sílabo exige declararlo y citarlo, con el reporte de prompts como
-anexo. Guarda tus prompts mientras trabajas: reconstruirlos al final sale peor.
+**Declara el uso de IA.** Basta con el **enlace a la conversación** con la herramienta que
+usaste; debe seguir abierto hasta que se publique la nota.
 
 **Criterio de éxito:** que la animación explique algo que una diapositiva estática no puede.
 Si tu animación se entiende igual como figura fija, todavía no está lista.
 :::
 
-## Vibequest 4 — El Latido del Núcleo
-
-**Excitación con corriente alterna y pérdidas en el hierro.**
+## Vibequest 4 — Excitación en AC y pérdidas en el núcleo
 
 *Referencias: Parte 1, diapositivas 8 a 16 (Faraday, Lenz, excitación con AC). Parte 2,
 diapositivas 9 a 14 (histéresis, corrientes de Foucault).*
@@ -71,9 +69,7 @@ lazo es la pérdida por histéresis*, y no solo que te lo digan.
 histéresis crecen con $f$ mientras las de Foucault crecen con $f^2$. O compara un núcleo
 macizo contra uno laminado, dibujando los remolinos de corriente en cada uno.
 
-## Vibequest 5 — La Barra que Despierta
-
-**El motor lineal: los dos efectos en un solo dispositivo.**
+## Vibequest 5 — Máquina lineal: los dos efectos en un solo dispositivo
 
 *Referencias: Parte 2, diapositivas 3 a 7 (Efecto I, Efecto II, motor frente a generador).*
 
@@ -93,9 +89,7 @@ velocidad. La fem supera a la fuente, la corriente **cambia de signo**, la fuerz
 frenante y la máquina **entrega** energía. El mismo dispositivo, sin tocar nada, pasó de motor
 a generador. Que la animación deje ver el instante exacto en que la corriente cruza por cero.
 
-## Vibequest 6 — El Truco del Colector
-
-**Cómo una máquina que genera alterna entrega continua.**
+## Vibequest 6 — Rectificación mecánica en la máquina DC
 
 *Referencias: Parte 3, diapositivas 12 y 13 (rectificación mecánica), 15 y 16 (bobina dentro
 del campo, tensión inducida), 14 (número de polos).*

@@ -3,9 +3,8 @@ title: "Horarios y evaluación"
 subtitle: "IEE2A5 — Maquinas Electricas — 2026-2"
 ---
 
-::: {.callout-note appearance="minimal"}
-Generado automáticamente desde `silabo/curso.yml`. **No editar a mano** — se sobreescribe en cada publicación. Para cambiar algo, edita `curso.yml`.
-:::
+<!-- Generado por scripts/generar.py desde silabo/curso.yml.
+     NO EDITAR A MANO: se sobreescribe en cada publicacion. -->
 
 ## Profesores
 

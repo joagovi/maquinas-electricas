@@ -26,11 +26,11 @@ except ImportError:
 RAIZ = Path(__file__).resolve().parent.parent
 CURSO = RAIZ / "silabo" / "curso.yml"
 
+# Comentario HTML: queda en el fuente para quien edite, pero NO se ve en la
+# pagina publicada. Al alumno no le aporta nada saber como se genera.
 AVISO = (
-    '::: {.callout-note appearance="minimal"}\n'
-    "Generado automáticamente desde `silabo/curso.yml`. **No editar a mano** — "
-    "se sobreescribe en cada publicación. Para cambiar algo, edita `curso.yml`.\n"
-    ":::\n"
+    "<!-- Generado por scripts/generar.py desde silabo/curso.yml.\n"
+    "     NO EDITAR A MANO: se sobreescribe en cada publicacion. -->\n"
 )
 
 
@@ -85,15 +85,14 @@ No es un trabajo aparte que se suma a lo demás: es otra forma de estudiar el mi
 
 {inscribirse}
 
-- **Por orden de llegada.** Hay **{n} cupos por sesión**; cuando se llenan, se llenan.
+- Hay **{n} cupos por sesión**, que se ocupan según se van llenando. Si una sesión no se
+  llena, esa sesión simplemente no tiene exposiciones.
 - **Eliges la fecha, no el tema.** El tema es el de esa semana.
 - Puedes exponer **una vez**. Si te inscribes dos veces, la hoja te avisa en rojo.
 
-No hay sorteo: te apuntas tú.
-
 ## Cuánto dura
 
-**{mins} minutos** por persona, más **{preg} minutos** de preguntas al final de la ronda.
+**{mins} minutos** por persona, más **{preg} minutos** de preguntas.
 
 ## Cuánto suma
 
@@ -123,10 +122,18 @@ premia es mostrar algo que una diapositiva estática no puede.
 ## Sobre el uso de IA
 
 Puedes usar herramientas de IA generativa para construir tu animación. El sílabo exige
-**declararlo y citarlo**, y el docente puede pedirte el reporte de los prompts como anexo.
+**declararlo y citarlo**.
 
-Guarda tus prompts mientras trabajas. Reconstruirlos al final es mucho más difícil, y no
-declararlos se considera falta a la ética académica.
+Basta con que entregues el **enlace a la conversación** con la IA que usaste. ChatGPT, Claude
+y Gemini permiten compartir un enlace; no hace falta que copies los prompts uno por uno.
+
+::: {{.callout-warning}}
+El enlace debe seguir **abierto hasta que la nota esté publicada**. Si lo borras o lo dejas
+en privado, es como no haberlo entregado.
+:::
+
+Si usaste varias herramientas, entrega un enlace por cada una. No declararlo se considera
+falta a la ética académica.
 """
 
 
