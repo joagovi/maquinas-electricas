@@ -212,27 +212,30 @@ proyecto:
     - {lab: 5, fecha_2026_1: 2026-07-02, puntos: 8}
 
 # -----------------------------------------------------------------------------
-# EXPOSICIONES EN CLASE  ("vibequest")
+# VIBEQUEST  (las exposiciones en clase)
 # -----------------------------------------------------------------------------
-# Individuales. Los sorteados de la sesion N exponen su solucion al ejercicio
-# dejado en la sesion N-1 (el silabo ya manda dejar ejercicios en clase).
+# Cada alumno prepara una ANIMACION EN PYTHON que muestre un fenomeno del curso
+# y la expone. Las misiones de cada semana estan en la pagina de esa sesion.
+#
+# NO HAY SORTEO: la inscripcion es voluntaria y por orden de llegada, en una
+# hoja compartida que genera scripts/inscripcion.py. El sorteo se diseno al
+# principio pero no se usa; sorteo.py queda solo para repartir los cupos que
+# sobren despues del plazo, si hiciera falta.
 exposiciones:
   activo: true
+  nombre: "Vibequest"
+  formato: "animacion en Python"
   minutos_por_alumno: 5
-  # 6 y no 5: con 37 alumnos y 7 sesiones habiles, a 5 por sesion faltaban 2
-  # turnos. A 6 salen 42 y sobran 5, que sirven de colchon por si se cae una
-  # sesion. La ultima sesion queda con menos alumnos.
   alumnos_por_sesion: 6
   minutos_preguntas: 5
-  primera_sesion: 2          # la sesion 1 no tiene ejercicio previo que exponer
-  responsable: JGV           # solo en su mitad del ciclo: el bonus va a Pa1 y Pa2
-  aviso_voluntario_horas: 24
+  inscripcion: voluntaria          # por orden de llegada en la hoja compartida
+  enlace_hoja: null                # PENDIENTE: pegar el enlace de Google Sheets
+  responsable: JGV                 # solo en su mitad del ciclo: el bonus va a Pa1 y Pa2
   penalidad_por_no_exponer: false
   bonus:
     maximo: 2
     aplica_a: "practica_de_la_sesion"   # nunca al promedio Pa: lo calcula el campus
     tope_nota: 20
-  semilla_sorteo: 20262      # fija => el sorteo es reproducible y auditable
 
 # Lista de alumnos -> desde _entrada/fotos/                        # PENDIENTE
 # Formato: - {codigo: "20201234", nombre: "Apellido, Nombre"}

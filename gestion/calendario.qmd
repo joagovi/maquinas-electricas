@@ -10,7 +10,7 @@ Generado automáticamente desde `silabo/curso.yml`. **No editar a mano** — se 
 | Sesión | Fecha | Tipo | Tema | Responsable |
 |-------:|-------|------|------|-------------|
 | 1 | 2026-08-22 | clase | Introduccion y circuitos magneticos | JGV |
-| 2 | 2026-08-29 | clase | — | JGV |
+| 2 | 2026-08-29 | clase | Excitacion en AC, conversion electromecanica y maquina DC | JGV |
 | 3 | 2026-09-05 | clase | — | JGV |
 | 4 | 2026-09-12 | clase | — | JGV |
 | 5 | 2026-09-19 | clase | — | JGV |

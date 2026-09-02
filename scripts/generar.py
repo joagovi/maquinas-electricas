@@ -56,60 +56,78 @@ def falta(que: str, donde: str) -> str:
 def reglas_exposicion(curso: dict) -> str:
     cfg = curso.get("exposiciones") or {}
     if not cfg.get("activo"):
-        return cabecera("Exposiciones en clase", curso) + "_Desactivadas este ciclo._\n"
+        return cabecera("Vibequest", curso) + "_Desactivado este ciclo._\n"
 
+    nombre = cfg.get("nombre", "Vibequest")
     mins = cfg.get("minutos_por_alumno", 5)
-    n = cfg.get("alumnos_por_sesion", 5)
+    n = cfg.get("alumnos_por_sesion", 6)
     preg = cfg.get("minutos_preguntas", 5)
-    aviso = cfg.get("aviso_voluntario_horas", 24)
     bonus = (cfg.get("bonus") or {}).get("maximo", 2)
     tope = (cfg.get("bonus") or {}).get("tope_nota", 20)
-    primera = cfg.get("primera_sesion", 2)
+    enlace = cfg.get("enlace_hoja")
 
-    out = cabecera("Exposiciones en clase", curso)
-    out += f"""
-## En qué consiste
+    inscribirse = (
+        f"[**Inscríbete aquí**]({enlace})"
+        if enlace
+        else "**El enlace de inscripción se comparte por correo y en Paideia.**"
+    )
 
-Cada sesión de clase, **{n} alumnos** exponen durante **{mins} minutos** cada uno, más
-**{preg} minutos** de preguntas al final. En total, media hora por sesión.
+    return cabecera(nombre, curso) + f"""
+## Qué es
 
-Se expone **la solución al ejercicio dejado en la sesión anterior**. No hay que preparar
-material nuevo: es el ejercicio que ya te tocaba resolver.
+Preparas una **{cfg.get('formato', 'animación en Python')}** que muestre un fenómeno del curso
+y la expones en clase. Cada semana hay misiones distintas, publicadas en la página de esa
+sesión.
 
-Las exposiciones empiezan en la **sesión {primera}** (la primera sesión no tiene ejercicio
-previo que exponer).
+No es un trabajo aparte que se suma a lo demás: es otra forma de estudiar el mismo tema.
 
-## Quién expone
+## Cómo se consigue un turno
 
-- **Por sorteo.** El sorteo se hace con una semilla fija y se publica el primer día. Cualquiera
-  puede volver a correrlo y obtener exactamente el mismo resultado: no se acomoda a nadie.
-- **Por voluntad.** Si quieres exponer sin que te toque, avisa con **{aviso} horas** de
-  anticipación. Si nadie avisó, el turno se abre el mismo día a quien se anime.
+{inscribirse}
 
-## Qué pasa si no expones
+- **Por orden de llegada.** Hay **{n} cupos por sesión**; cuando se llenan, se llenan.
+- **Eliges la fecha, no el tema.** El tema es el de esa semana.
+- Puedes exponer **una vez**. Si te inscribes dos veces, la hoja te avisa en rojo.
 
-**Nada.** No hay penalidad por no exponer cuando te toca; tu turno se abre a voluntarios. La
-exposición **solo suma**.
+No hay sorteo: te apuntas tú.
 
-## Puntaje
+## Cuánto dura
 
-Exponer da hasta **+{bonus} puntos** sobre la **práctica calificada de esa unidad**, sin pasar
-de {tope}.
+**{mins} minutos** por persona, más **{preg} minutos** de preguntas al final de la ronda.
 
-::: {{.callout-important}}
-El puntaje se aplica a una práctica concreta, **no al promedio**: el campus virtual calcula el
-promedio automáticamente y no admite ajustes.
+## Cuánto suma
+
+Hasta **+{bonus} puntos** sobre la **práctica calificada de esa unidad**, sin pasar de {tope}.
+
+::: {{.callout-note}}
+**No exponer no resta nada.** Es una oportunidad, no una obligación. Y el puntaje va a una
+práctica concreta, no al promedio: el campus calcula el promedio solo y no admite ajustes.
 :::
 
-## Cómo se califica
+## Qué se evalúa
 
-Ver la [rúbrica de exposición](rubrica.qmd).
+La [rúbrica](rubrica.qmd) mira cuatro cosas: resolución correcta, justificación, claridad y
+respuesta a preguntas.
 
-## Sorteo
+Aplicado a una animación, **justificación** significa poder explicar qué ecuación gobierna
+cada curva, qué hipótesis asumiste y dónde dejaría de valer tu modelo. Una animación vistosa
+que no puedes explicar no suma.
 
-Ver el [sorteo publicado](sorteo.md).
+::: {{.callout-tip}}
+## El criterio que más ayuda
+
+Si tu animación se entiende igual como una figura fija, todavía no está lista. Lo que se
+premia es mostrar algo que una diapositiva estática no puede.
+:::
+
+## Sobre el uso de IA
+
+Puedes usar herramientas de IA generativa para construir tu animación. El sílabo exige
+**declararlo y citarlo**, y el docente puede pedirte el reporte de los prompts como anexo.
+
+Guarda tus prompts mientras trabajas. Reconstruirlos al final es mucho más difícil, y no
+declararlos se considera falta a la ética académica.
 """
-    return out
 
 
 # --------------------------------------------------------------------------- #

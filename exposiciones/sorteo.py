@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Sorteo reproducible de las exposiciones en clase.
+"""Sorteo de respaldo: reparte los cupos que queden libres tras el plazo.
+
+NO se usa en el flujo normal. La inscripcion al Vibequest es VOLUNTARIA, por
+orden de llegada, en la hoja que genera scripts/inscripcion.py. Este script
+existe solo por si al cerrar el plazo sobran cupos y hay que asignarlos.
 
 Lee silabo/curso.yml y reparte a los alumnos entre las sesiones de clase
 disponibles. La semilla esta fijada en curso.yml, asi que correrlo dos veces da
