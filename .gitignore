@@ -17,6 +17,11 @@ notebooklm/*.zip
 # al repositorio publico. Se quedan en disco y en el repositorio privado.
 docs/
 
+# --- Carpeta de trabajo del profesor ------------------------------------------
+# Hojas de calculo con nombres de alumnos, notas y control de participacion.
+# Vive dentro del proyecto por comodidad, pero NUNCA sale de esta maquina.
+privado/
+
 # --- Informacion interna: alumnos, jefes de practica, horarios ---------------
 # Nombres de alumnos y de jefes de practica NO se publican en un sitio web
 # abierto. El sorteo con nombres se entrega por Paideia, que exige login.
