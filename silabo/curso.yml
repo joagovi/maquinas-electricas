@@ -238,12 +238,11 @@ exposiciones:
     maximo: 2
     aplica_a: "practica_de_la_sesion"   # nunca al promedio Pa: lo calcula el campus
     tope_nota: 20
-  # A que practica calificada se suma el subtotal de cada mes.
-  # Clave = numero de mes.                                         # VERIFICAR
-  meses_a_practica:
-    8: Pa1
-    9: Pa1
-    10: Pa2
+  # A que practica calificada se suma cada bloque de sesiones.
+  # NO coincide con los meses: setiembre tiene sesiones de Pa1 y de Pa2.
+  bloques_a_practica:
+    - {practica: Pa1, sesiones: [1, 2, 3, 4]}
+    - {practica: Pa2, sesiones: [5, 6, 7, 8]}
 
 # Lista de alumnos -> desde _entrada/fotos/                        # PENDIENTE
 # Formato: - {codigo: "20201234", nombre: "Apellido, Nombre"}

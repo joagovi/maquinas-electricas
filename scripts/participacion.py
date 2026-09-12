@@ -92,7 +92,7 @@ def main() -> int:
     alumnos = yaml.safe_load((RAIZ / "silabo" / "interno.yml").read_text(encoding="utf-8"))["alumnos"]
     cfg = curso.get("exposiciones") or {}
     resp = cfg.get("responsable", "JGV")
-    a_pc = cfg.get("meses_a_practica") or {}
+    bloques = cfg.get("bloques_a_practica") or []
 
     examenes = [s["n"] for s in curso["sesiones"] if s["tipo"] == "examen"]
     tope = min(examenes) if examenes else 99
@@ -103,10 +103,15 @@ def main() -> int:
     previo = leer_existente(salida)
     hoy = datetime.date.today()
 
-    # sesiones agrupadas por mes, en orden
-    meses: dict[int, list] = {}
-    for s in ses:
-        meses.setdefault(fecha_de(s).month, []).append(s)
+    # Sesiones agrupadas por practica calificada, no por mes: el corte entre
+    # Pa1 y Pa2 cae a mitad de setiembre.
+    grupos = []
+    for b in bloques:
+        dentro = [s for s in ses if s["n"] in b["sesiones"]]
+        if dentro:
+            grupos.append((b["practica"], dentro))
+    if not grupos:
+        grupos = [("Total", ses)]
 
     wb = Workbook()
     ws = wb.active
@@ -114,13 +119,15 @@ def main() -> int:
 
     # ---- construir el mapa de columnas -------------------------------------
     col = 3
-    cols_p, cols_v, cols_mes = [], [], {}
-    for m, lista in meses.items():
+    cols_p, cols_v, cols_sub = [], [], []
+    for practica, lista in grupos:
+        ns = []
         for s in lista:
             cols_p.append((s, col))
             cols_v.append((s, col + 1))
+            ns.append(s["n"])
             col += 2
-        cols_mes[m] = col
+        cols_sub.append((practica, ns, col))
         col += 1
     col_tp, col_tv = col, col + 1
     ancho_total = col_tv
@@ -161,15 +168,14 @@ def main() -> int:
         for c in (cp, cv):
             ws.column_dimensions[get_column_letter(c)].width = 7
 
-    for m, c in cols_mes.items():
-        pc = a_pc.get(m)
-        tit = ws.cell(row=4, column=c, value=f"→ {pc}" if pc else "")
-        sub = ws.cell(row=5, column=c, value=MESES[m - 1][:3].upper())
+    for practica, ns, c in cols_sub:
+        tit = ws.cell(row=4, column=c, value="SUMA")
+        sub = ws.cell(row=5, column=c, value=f"→ {practica}")
         for cc in (tit, sub):
             cc.fill = NARANJA
             cc.font = Font(bold=True, color="FFFFFF", size=9)
             cc.alignment = CENTRO
-        ws.column_dimensions[get_column_letter(c)].width = 8
+        ws.column_dimensions[get_column_letter(c)].width = 9
 
     for c, etq in ((col_tp, "TOT Part."), (col_tv, "TOT Anim.")):
         ws.cell(row=4, column=c, value="TOTALES" if c == col_tp else "")
@@ -195,9 +201,9 @@ def main() -> int:
                     ws.cell(row=r, column=c, value=v)
                     rescatados += 1
 
-        for m, c in cols_mes.items():
+        for practica, ns, c in cols_sub:
             partes = [f"N({get_column_letter(cc)}{r})"
-                      for s2, cc in cols_p + cols_v if fecha_de(s2).month == m]
+                      for s2, cc in cols_p + cols_v if s2["n"] in ns]
             cc = ws.cell(row=r, column=c, value="=" + "+".join(partes))
             cc.font = Font(bold=True)
             cc.fill = AMBAR
@@ -211,7 +217,7 @@ def main() -> int:
             cel.border = BORDE
             if c >= 3:
                 cel.alignment = CENTRO
-            if i % 2 and c not in cols_mes.values():
+            if i % 2 and c not in [x[2] for x in cols_sub]:
                 cel.fill = GRIS
 
     ultima = 5 + len(alumnos)
@@ -235,7 +241,7 @@ def main() -> int:
 
     print(f"[ok] {salida}")
     print(f"     {len(alumnos)} alumnos x {len(ses)} clases de {resp}")
-    print(f"     subtotales por mes: {', '.join(MESES[m-1] for m in meses)}")
+    print(f"     subtotales: {', '.join(f'{p} (S{ns[0]}-S{ns[-1]})' for p, ns, _ in cols_sub)}")
     if previo:
         print(f"     CONSERVADOS {rescatados} puntajes ya anotados")
     else:
