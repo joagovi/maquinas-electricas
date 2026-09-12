@@ -102,7 +102,7 @@ evaluacion:
     # ATENCION: hay que confirmar en Secretaria si el eliminable es la nota mas
     # baja (automatico) o una que el alumno elige. El diseno del bonus de
     # exposicion depende de esto.
-    eliminable_es: "mas_baja"                                     # VERIFICAR
+    eliminable_es: "mas_baja"   # confirmado por el profesor: Pa si tiene eliminable
   Pb:
     descripcion: "Practica tipo B (6 laboratorios calificados; el proyecto vive aqui)"
     cantidad: 6
@@ -198,18 +198,20 @@ proyecto:
   # OJO: los avances SI estan calificados (2 puntos, el 10% de cada lab).
   # No son entregas informales: tienen puntaje y fecha limite institucional.
   # Las fechas son las de 2026-1 y sirven de plantilla.            # VERIFICAR
+  # Fechas del ciclo 2026-2, leidas de "ME 2026-2 Normas Reglamentarias ME.docx"
+  # (Drive, carpeta de alumnos). Ya actualizadas por el profesor.
   avances:
-    - {lab: 1, entrega: "Metodologia, cronograma de hitos y analisis del proyecto",             fecha_2026_1: 2026-04-10, puntos: 2}
-    - {lab: 2, entrega: "Marco teorico, diseno preliminar, analisis, planteamiento de pruebas", fecha_2026_1: 2026-04-24, puntos: 2}
-    - {lab: 3, entrega: "Presentacion parcial e informe parcial",                               fecha_2026_1: 2026-05-15, puntos: null}
-    - {lab: 4, entrega: "Evidencia de construccion y ensamblaje",                               fecha_2026_1: 2026-06-05, puntos: 2}
-    - {lab: 5, entrega: "Pruebas y resultados",                                                 fecha_2026_1: 2026-06-19, puntos: 2}
-    - {lab: 6, entrega: "Presentacion final y evaluacion",                                      fecha_2026_1: 2026-07-03, puntos: null}
+    - {lab: 1, entrega: "Metodologia, cronograma de hitos y analisis del proyecto",             fecha: 2026-09-11, puntos: 2}
+    - {lab: 2, entrega: "Marco teorico, diseno preliminar, analisis, planteamiento de pruebas", fecha: 2026-09-25, puntos: 2}
+    - {lab: 3, entrega: "Presentacion parcial e informe parcial",                               fecha: 2026-10-10, puntos: null}
+    - {lab: 4, entrega: "Evidencia de construccion y ensamblaje",                               fecha: 2026-10-30, puntos: 2}
+    - {lab: 5, entrega: "Pruebas y resultados",                                                 fecha: 2026-11-13, puntos: 2}
+    - {lab: 6, entrega: "Presentacion final y evaluacion",                                      fecha: 2026-11-27, puntos: null}
   informes:
-    - {lab: 1, fecha_2026_1: 2026-04-30, puntos: 8}
-    - {lab: 2, fecha_2026_1: 2026-05-14, puntos: 8}
-    - {lab: 4, fecha_2026_1: 2026-06-18, puntos: 8}
-    - {lab: 5, fecha_2026_1: 2026-07-02, puntos: 8}
+    - {lab: 1, fecha: 2026-09-18, puntos: 8}
+    - {lab: 2, fecha: 2026-10-02, puntos: 8}
+    - {lab: 4, fecha: 2026-11-06, puntos: 8}
+    - {lab: 5, fecha: 2026-11-20, puntos: 8}
 
 # -----------------------------------------------------------------------------
 # VIBEQUEST  (las exposiciones en clase)
@@ -229,7 +231,7 @@ exposiciones:
   alumnos_por_sesion: 6
   minutos_preguntas: 5
   inscripcion: voluntaria          # por orden de llegada en la hoja compartida
-  enlace_hoja: null                # PENDIENTE: pegar el enlace de Google Sheets
+  enlace_hoja: "https://docs.google.com/spreadsheets/d/13x931L8jrkgxcFWQl2L4g-D18XmOY0eiMgec2CenbCA/edit?usp=sharing"
   responsable: JGV                 # solo en su mitad del ciclo: el bonus va a Pa1 y Pa2
   penalidad_por_no_exponer: false
   bonus:

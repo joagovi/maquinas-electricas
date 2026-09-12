@@ -60,11 +60,11 @@ def main() -> int:
 
     ws["A1"] = f'Participación en clase · {curso["codigo"]} {curso["ciclo"]}'
     ws["A1"].font = Font(bold=True, size=14, color="1F4E79")
-    ws.merge_cells(start_row=1, start_column=1, end_row=1, end_column=3 + len(ses))
-    ws["A2"] = ("Anota un punto (o la fracción que uses) en la clase correspondiente. "
-                "El total se calcula solo.")
+    ws.merge_cells(start_row=1, start_column=1, end_row=1, end_column=4 + 2 * len(ses))
+    ws["A2"] = ("Part. = participación en clase · Vibeq. = puntaje del Vibequest de esa semana. "
+                "Anota el puntaje y los totales se calculan solos.")
     ws["A2"].font = Font(italic=True, size=9, color="404040")
-    ws.merge_cells(start_row=2, start_column=1, end_row=2, end_column=3 + len(ses))
+    ws.merge_cells(start_row=2, start_column=1, end_row=2, end_column=4 + 2 * len(ses))
 
     # fila 4: numero de sesion / fila 5: fecha
     ws.cell(row=5, column=1, value="Código").font = Font(bold=True, color="FFFFFF")
@@ -73,61 +73,78 @@ def main() -> int:
         ws.cell(row=5, column=c).fill = AZUL
         ws.cell(row=4, column=c).fill = AZUL
 
+    # Dos columnas por sesion: participacion en clase y puntaje del Vibequest.
+    # Ambas son semanales, asi que van juntas bajo la misma fecha.
+    VIOLETA = PatternFill("solid", fgColor="5B2C6F")
     for i, s in enumerate(ses):
-        col = 3 + i
+        cp = 3 + 2 * i          # participacion
+        cv = cp + 1             # vibequest
         f = fecha_de(s)
-        tit = ws.cell(row=4, column=col, value=f"S{s['n']}")
-        fec = ws.cell(row=5, column=col, value=f"{f.day}-{MESES[f.month - 1]}")
-        for cc in (tit, fec):
-            cc.font = Font(bold=True, color="FFFFFF", size=10)
-            cc.fill = AZUL
-            cc.alignment = Alignment(horizontal="center")
-        ws.column_dimensions[get_column_letter(col)].width = 8
-        tema = caps.get(s["n"])
-        if tema:
-            fec.comment = None
-        # las clases que aun no ocurren se distinguen
-        if f > hoy:
-            tit.fill = PatternFill("solid", fgColor="7F9DB9")
-            fec.fill = PatternFill("solid", fgColor="7F9DB9")
+        futura = f > hoy
 
-    col_total = 3 + len(ses)
-    for r in (4, 5):
-        cc = ws.cell(row=r, column=col_total, value="TOTAL" if r == 5 else "")
+        tit = ws.cell(row=4, column=cp, value=f"S{s['n']} · {f.day}-{MESES[f.month - 1]}")
+        ws.merge_cells(start_row=4, start_column=cp, end_row=4, end_column=cv)
+        tit.font = Font(bold=True, color="FFFFFF", size=10)
+        tit.fill = PatternFill("solid", fgColor="7F9DB9") if futura else AZUL
+        tit.alignment = Alignment(horizontal="center")
+
+        p_ = ws.cell(row=5, column=cp, value="Part.")
+        v_ = ws.cell(row=5, column=cv, value="Vibeq.")
+        p_.fill = PatternFill("solid", fgColor="7F9DB9") if futura else AZUL
+        v_.fill = PatternFill("solid", fgColor="9B7BB0") if futura else VIOLETA
+        for cc in (p_, v_):
+            cc.font = Font(bold=True, color="FFFFFF", size=9)
+            cc.alignment = Alignment(horizontal="center")
+        ws.column_dimensions[get_column_letter(cp)].width = 7
+        ws.column_dimensions[get_column_letter(cv)].width = 7
+
+    col_total = 3 + 2 * len(ses)
+    col_tv = col_total + 1
+    ws.cell(row=4, column=col_total, value="TOTALES")
+    ws.merge_cells(start_row=4, start_column=col_total, end_row=4, end_column=col_tv)
+    ws.cell(row=5, column=col_total, value="Part.")
+    ws.cell(row=5, column=col_tv, value="Vibeq.")
+    for r, c in ((4, col_total), (5, col_total), (5, col_tv)):
+        cc = ws.cell(row=r, column=c)
         cc.font = Font(bold=True, color="FFFFFF")
-        cc.fill = AZUL
+        cc.fill = VIOLETA if c == col_tv and r == 5 else AZUL
         cc.alignment = Alignment(horizontal="center")
     ws.column_dimensions[get_column_letter(col_total)].width = 9
+    ws.column_dimensions[get_column_letter(col_tv)].width = 9
 
     ws.column_dimensions["A"].width = 12
     ws.column_dimensions["B"].width = 42
 
-    prim, ult = get_column_letter(3), get_column_letter(col_total - 1)
+    cols_p = [get_column_letter(3 + 2 * i) for i in range(len(ses))]
+    cols_v = [get_column_letter(4 + 2 * i) for i in range(len(ses))]
     for i, a in enumerate(alumnos):
         r = 6 + i
         ws.cell(row=r, column=1, value=int(a["codigo"])).number_format = "0"
         ws.cell(row=r, column=2, value=a["nombre"]).font = Font(size=10)
-        for col in range(1, col_total + 1):
-            ws.cell(row=r, column=col).border = BORDE
-        for col in range(3, col_total):
-            ws.cell(row=r, column=col).alignment = Alignment(horizontal="center")
-        t = ws.cell(row=r, column=col_total, value=f"=SUM({prim}{r}:{ult}{r})")
-        t.font = Font(bold=True)
-        t.alignment = Alignment(horizontal="center")
+        for col in range(1, col_tv + 1):
+            cc = ws.cell(row=r, column=col)
+            cc.border = BORDE
+            if col >= 3:
+                cc.alignment = Alignment(horizontal="center")
+        for col, cols in ((col_total, cols_p), (col_tv, cols_v)):
+            cc = ws.cell(row=r, column=col,
+                         value="=" + "+".join(f"N({c}{r})" for c in cols))
+            cc.font = Font(bold=True)
+            cc.alignment = Alignment(horizontal="center")
         if i % 2:
-            for col in range(1, col_total + 1):
-                if not ws.cell(row=r, column=col).fill.fgColor.rgb == "00C6EFCE":
-                    ws.cell(row=r, column=col).fill = GRIS
+            for col in range(1, col_tv + 1):
+                ws.cell(row=r, column=col).fill = GRIS
 
     ultima = 5 + len(alumnos)
-    tot = f"{get_column_letter(col_total)}6:{get_column_letter(col_total)}{ultima}"
-    ws.conditional_formatting.add(tot, CellIsRule(operator="equal", formula=["0"], fill=ROJO))
-    ws.conditional_formatting.add(tot, CellIsRule(operator="greaterThan", formula=["0"], fill=VERDE))
+    for col in (col_total, col_tv):
+        rng = f"{get_column_letter(col)}6:{get_column_letter(col)}{ultima}"
+        ws.conditional_formatting.add(rng, CellIsRule(operator="equal", formula=["0"], fill=ROJO))
+        ws.conditional_formatting.add(rng, CellIsRule(operator="greaterThan", formula=["0"], fill=VERDE))
 
     # fila de resumen: cuantos participaron cada dia
     r = ultima + 2
     ws.cell(row=r, column=2, value="Participaron ese día").font = Font(bold=True, italic=True, size=9)
-    for i in range(len(ses)):
+    for i in range(2 * len(ses)):
         col = get_column_letter(3 + i)
         c = ws.cell(row=r, column=3 + i, value=f'=COUNTIF({col}6:{col}{ultima},">0")')
         c.font = Font(bold=True, size=9)
