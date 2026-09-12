@@ -16,7 +16,8 @@ Antonio Romero Jiménez, que dicta desde el parcial.
 
 1. `docs/plan-inicial.md` — el plan aprobado, con el porqué de cada decisión.
 2. `docs/bitacora.md` — qué se ha hecho, cuándo y qué quedó pendiente.
-3. `silabo/curso.yml` — los datos del curso.
+3. `docs/estructura.md` — dónde está cada cosa y qué hace cada script.
+4. `silabo/curso.yml` — los datos del curso.
 
 > **`docs/` no está en el repositorio público.** Contiene notas internas de trabajo con
 > valoraciones francas sobre el curso y sobre colegas. Existe solo en la máquina del profesor
@@ -49,9 +50,11 @@ lo detecta y los baja con `rclone cat` a un temporal que borra al terminar.
 
 ## Reglas del proyecto
 
-- **`silabo/curso.yml` es la fuente única.** Pesos, capítulos, sesiones, alumnos y fechas
-  viven ahí. Los `.qmd` de `gestion/` y `exposiciones/sorteo.md` se **generan** desde él:
-  no los edites a mano, se sobreescriben.
+- **`silabo/curso.yml` es la fuente única.** Pesos, capítulos, sesiones y fechas viven ahí.
+  `gestion/calendario.qmd`, `gestion/responsables.qmd` y `exposiciones/reglas.qmd` se
+  **generan** desde él: no los edites a mano, se sobreescriben.
+- **Los nombres de alumnos y jefes de práctica NO van en `curso.yml`**: viven en
+  `silabo/interno.yml`, fuera de git.
 - **`_entrada/` es solo de lectura para nosotros.** El profesor deja ahí los archivos crudos;
   nunca borramos ni movemos nada de esa carpeta. Está fuera de git a propósito.
 - **No tomar material de `~/Downloads`.** Instrucción explícita del profesor: él coloca lo que
@@ -65,23 +68,13 @@ lo detecta y los baja con `rclone cat` a un temporal que borra al terminar.
 
 ## Estructura
 
-```
-_entrada/      zona de entrada, fuera de git (el profesor deposita aquí)
-silabo/        curso.yml (fuente única) + PDF oficial del sílabo
-_templates/    plantillas LaTeX del formato PUCP FCI-Adm-4.01
-teoria/        un capítulo por carpeta (según el sílabo del ciclo)
-dirigidas/     pd1-femm, pd2-simulink, pd3, pd4  → alimentan Pa
-laboratorios/  lab1..lab6 (Pb1..Pb6) + proyecto/ (el proyecto es parte del lab)
-exposiciones/  reglas, rúbrica y sorteo.py (sorteo reproducible)
-gestion/       calendario.qmd y responsables.qmd (GENERADOS)
-notebooklm/    paquete de PDFs para subir a NotebookLM
-legacy/        originales sin convertir, versionados pero no renderizados
-docs/          plan y bitácora
-```
+El mapa completo —carpetas, scripts y qué se publica— está en **`docs/estructura.md`**.
 
-## Evaluación (sílabo 2026-1 — pendiente confirmar contra 2026-2)
+## Evaluación (sílabo 2026-2, ya verificado)
 
 `Nota = (15·Pa + 5·Pb1 + 6·Pb2 + 4·Pb3 + 6·Pb4 + 4·Pb5 + 10·Pb6 + 20·Ex1 + 30·Ex2) / 100`
+
+Los pesos del sílabo 2026-2 son **idénticos** a los de 2026-1: se comprobó contra el PDF oficial.
 
 - `Pa`: 4 prácticas, promedio, 1 eliminable. **El campus virtual calcula el promedio solo**,
   por eso el bonus de exposición se aplica a una práctica concreta, nunca al promedio.
@@ -97,14 +90,21 @@ quarto render                                # todo el sitio + PDFs
 quarto render dirigidas/pd1-femm/index.qmd --to pdf
 quarto preview                               # servidor local con recarga
 
-python3 exposiciones/sorteo.py --check       # verifica que los turnos alcancen
-python3 exposiciones/sorteo.py               # genera exposiciones/sorteo.md
+.venv/bin/python scripts/importar.py         # alumnos y horarios desde el Drive
+.venv/bin/python scripts/generar.py          # calendario, horarios y reglas
+.venv/bin/python scripts/inscripcion.py      # hoja de inscripción al Vibequest
+.venv/bin/python scripts/participacion.py    # hoja de participación en clase
 ```
+
+**No hay sorteo.** La inscripción al Vibequest es voluntaria y por orden de llegada;
+`exposiciones/sorteo.py` quedó solo como respaldo para repartir cupos sobrantes.
 
 Quarto y TinyTeX están instalados **en el usuario** (`~/.local`, `~/.TinyTeX`), sin sudo.
 
-## Estado: bloqueado esperando material
+## Estado
 
-No se pueden fijar capítulos, calendario ni sorteo hasta que el profesor deposite en
-`_entrada/`: el **sílabo 2026-2**, las **fotos del calendario y la lista de alumnos**, y el
-material de Paideia/Drive. Ver `docs/bitacora.md` para el detalle.
+El sitio está **publicado y funcionando** en https://joagovi.github.io/maquinas-electricas/
+El sílabo, el calendario, los 37 alumnos y los horarios están cargados y verificados.
+
+Lo que falta en cada momento está en **`docs/bitacora.md`**, sección "Pendiente ahora mismo".
+Consúltala antes de proponer trabajo nuevo.
