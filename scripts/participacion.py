@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Genera la hoja de control de participacion en clase.
+"""Hoja de control de participacion y Vibequest.
 
-Una fila por alumno y una columna por cada sesion de clase del profesor
-responsable hasta el parcial. Suma sola y marca en color quien no ha
-participado nunca.
+Una fila por alumno. Por cada clase del profesor responsable antes del parcial,
+dos columnas: participacion en clase y puntaje del Vibequest de esa semana.
+Al cerrar cada mes, un subtotal — que es lo que se suma a la practica calificada.
 
-La salida va a privado/, que esta fuera de git: contiene nombres de alumnos.
+IMPORTANTE: si ya existe la hoja con puntajes anotados, se CONSERVAN. Regenerar
+no borra el trabajo hecho.
 
 Uso:
     .venv/bin/python scripts/participacion.py [salida.xlsx]
@@ -17,22 +18,32 @@ import datetime
 import sys
 from pathlib import Path
 
+import openpyxl
 import yaml
 from openpyxl import Workbook
-from openpyxl.formatting.rule import CellIsRule, FormulaRule
+from openpyxl.formatting.rule import CellIsRule
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
 
 RAIZ = Path(__file__).resolve().parent.parent
-MESES = ["ene", "feb", "mar", "abr", "may", "jun",
+POR_DEFECTO = RAIZ / "privado" / "Participacion en clase.xlsx"
+
+MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio",
+         "agosto", "setiembre", "octubre", "noviembre", "diciembre"]
+ABREV = ["ene", "feb", "mar", "abr", "may", "jun",
          "jul", "ago", "set", "oct", "nov", "dic"]
 
-AZUL = PatternFill("solid", fgColor="1F4E79")
-GRIS = PatternFill("solid", fgColor="F2F2F2")
-VERDE = PatternFill("solid", fgColor="C6EFCE")
-AMBAR = PatternFill("solid", fgColor="FFF2CC")
-ROJO = PatternFill("solid", fgColor="FFC7CE")
-BORDE = Border(*[Side(style="thin", color="BFBFBF")] * 4)
+AZUL     = PatternFill("solid", fgColor="1F4E79")
+AZUL_CLR = PatternFill("solid", fgColor="7F9DB9")
+MORADO   = PatternFill("solid", fgColor="5B2C6F")
+MORA_CLR = PatternFill("solid", fgColor="9B7BB0")
+NARANJA  = PatternFill("solid", fgColor="C55A11")
+GRIS     = PatternFill("solid", fgColor="F2F2F2")
+VERDE    = PatternFill("solid", fgColor="C6EFCE")
+AMBAR    = PatternFill("solid", fgColor="FFF2CC")
+ROJO     = PatternFill("solid", fgColor="FFC7CE")
+BORDE    = Border(*[Side(style="thin", color="BFBFBF")] * 4)
+CENTRO   = Alignment(horizontal="center")
 
 
 def fecha_de(s) -> datetime.date:
@@ -40,126 +51,195 @@ def fecha_de(s) -> datetime.date:
     return f if isinstance(f, datetime.date) else datetime.date.fromisoformat(str(f))
 
 
+def leer_existente(ruta: Path) -> dict:
+    """Rescata lo ya anotado: {codigo: {(sesion, 'p'|'v'): valor}}."""
+    if not ruta.exists():
+        return {}
+    try:
+        ws = openpyxl.load_workbook(ruta, data_only=True).worksheets[0]
+    except Exception:
+        return {}
+
+    col_ses = {}
+    for c in range(1, ws.max_column + 1):
+        v = ws.cell(row=4, column=c).value
+        if isinstance(v, str) and v.startswith("S") and "·" in v:
+            try:
+                col_ses[c] = int(v.split("·")[0].strip()[1:])
+            except ValueError:
+                pass
+    if not col_ses:
+        return {}
+
+    datos = {}
+    for r in range(6, ws.max_row + 1):
+        cod = ws.cell(row=r, column=1).value
+        if not cod:
+            continue
+        guardado = {}
+        for c, n in col_ses.items():
+            for off, clave in ((0, "p"), (1, "v")):
+                v = ws.cell(row=r, column=c + off).value
+                if v is not None and str(v).strip() and not str(v).startswith("="):
+                    guardado[(n, clave)] = v
+        if guardado:
+            datos[str(int(cod))] = guardado
+    return datos
+
+
 def main() -> int:
     curso = yaml.safe_load((RAIZ / "silabo" / "curso.yml").read_text(encoding="utf-8"))
     alumnos = yaml.safe_load((RAIZ / "silabo" / "interno.yml").read_text(encoding="utf-8"))["alumnos"]
-    resp = (curso.get("exposiciones") or {}).get("responsable", "JGV")
+    cfg = curso.get("exposiciones") or {}
+    resp = cfg.get("responsable", "JGV")
+    a_pc = cfg.get("meses_a_practica") or {}
 
-    # Solo las clases del profesor responsable y solo antes del parcial.
     examenes = [s["n"] for s in curso["sesiones"] if s["tipo"] == "examen"]
     tope = min(examenes) if examenes else 99
     ses = [s for s in curso["sesiones"]
            if s["tipo"] == "clase" and s.get("responsable") == resp and s["n"] < tope]
 
-    caps = {c.get("semana"): c["titulo"] for c in curso.get("capitulos", []) if c.get("semana")}
+    salida = Path(sys.argv[1]) if len(sys.argv) > 1 else POR_DEFECTO
+    previo = leer_existente(salida)
     hoy = datetime.date.today()
+
+    # sesiones agrupadas por mes, en orden
+    meses: dict[int, list] = {}
+    for s in ses:
+        meses.setdefault(fecha_de(s).month, []).append(s)
 
     wb = Workbook()
     ws = wb.active
     ws.title = "Participación"
 
-    ws["A1"] = f'Participación en clase · {curso["codigo"]} {curso["ciclo"]}'
+    # ---- construir el mapa de columnas -------------------------------------
+    col = 3
+    cols_p, cols_v, cols_mes = [], [], {}
+    for m, lista in meses.items():
+        for s in lista:
+            cols_p.append((s, col))
+            cols_v.append((s, col + 1))
+            col += 2
+        cols_mes[m] = col
+        col += 1
+    col_tp, col_tv = col, col + 1
+    ancho_total = col_tv
+
+    ws["A1"] = f'Participación y Vibequest · {curso["codigo"]} {curso["ciclo"]}'
     ws["A1"].font = Font(bold=True, size=14, color="1F4E79")
-    ws.merge_cells(start_row=1, start_column=1, end_row=1, end_column=4 + 2 * len(ses))
-    ws["A2"] = ("Part. = participación en clase · Vibeq. = puntaje del Vibequest de esa semana. "
-                "Anota el puntaje y los totales se calculan solos.")
+    ws.merge_cells(start_row=1, start_column=1, end_row=1, end_column=ancho_total)
+    ws["A2"] = ("Part. = participación en clase · Anim. = animación del Vibequest. "
+                "Los subtotales por mes y los totales se calculan solos.")
     ws["A2"].font = Font(italic=True, size=9, color="404040")
-    ws.merge_cells(start_row=2, start_column=1, end_row=2, end_column=4 + 2 * len(ses))
+    ws.merge_cells(start_row=2, start_column=1, end_row=2, end_column=ancho_total)
 
-    # fila 4: numero de sesion / fila 5: fecha
-    ws.cell(row=5, column=1, value="Código").font = Font(bold=True, color="FFFFFF")
-    ws.cell(row=5, column=2, value="Alumno").font = Font(bold=True, color="FFFFFF")
+    ws.cell(row=5, column=1, value="Código")
+    ws.cell(row=5, column=2, value="Alumno")
     for c in (1, 2):
-        ws.cell(row=5, column=c).fill = AZUL
-        ws.cell(row=4, column=c).fill = AZUL
+        for r in (4, 5):
+            cc = ws.cell(row=r, column=c)
+            cc.fill = AZUL
+            cc.font = Font(bold=True, color="FFFFFF")
+    ws.column_dimensions["A"].width = 11
+    ws.column_dimensions["B"].width = 40
 
-    # Dos columnas por sesion: participacion en clase y puntaje del Vibequest.
-    # Ambas son semanales, asi que van juntas bajo la misma fecha.
-    VIOLETA = PatternFill("solid", fgColor="5B2C6F")
-    for i, s in enumerate(ses):
-        cp = 3 + 2 * i          # participacion
-        cv = cp + 1             # vibequest
+    for (s, cp), (_, cv) in zip(cols_p, cols_v):
         f = fecha_de(s)
         futura = f > hoy
-
-        tit = ws.cell(row=4, column=cp, value=f"S{s['n']} · {f.day}-{MESES[f.month - 1]}")
+        tit = ws.cell(row=4, column=cp, value=f"S{s['n']} · {f.day}-{ABREV[f.month - 1]}")
         ws.merge_cells(start_row=4, start_column=cp, end_row=4, end_column=cv)
         tit.font = Font(bold=True, color="FFFFFF", size=10)
-        tit.fill = PatternFill("solid", fgColor="7F9DB9") if futura else AZUL
-        tit.alignment = Alignment(horizontal="center")
-
+        tit.fill = AZUL_CLR if futura else AZUL
+        tit.alignment = CENTRO
         p_ = ws.cell(row=5, column=cp, value="Part.")
-        v_ = ws.cell(row=5, column=cv, value="Vibeq.")
-        p_.fill = PatternFill("solid", fgColor="7F9DB9") if futura else AZUL
-        v_.fill = PatternFill("solid", fgColor="9B7BB0") if futura else VIOLETA
+        v_ = ws.cell(row=5, column=cv, value="Anim.")
+        p_.fill = AZUL_CLR if futura else AZUL
+        v_.fill = MORA_CLR if futura else MORADO
         for cc in (p_, v_):
             cc.font = Font(bold=True, color="FFFFFF", size=9)
-            cc.alignment = Alignment(horizontal="center")
-        ws.column_dimensions[get_column_letter(cp)].width = 7
-        ws.column_dimensions[get_column_letter(cv)].width = 7
+            cc.alignment = CENTRO
+        for c in (cp, cv):
+            ws.column_dimensions[get_column_letter(c)].width = 7
 
-    col_total = 3 + 2 * len(ses)
-    col_tv = col_total + 1
-    ws.cell(row=4, column=col_total, value="TOTALES")
-    ws.merge_cells(start_row=4, start_column=col_total, end_row=4, end_column=col_tv)
-    ws.cell(row=5, column=col_total, value="Part.")
-    ws.cell(row=5, column=col_tv, value="Vibeq.")
-    for r, c in ((4, col_total), (5, col_total), (5, col_tv)):
-        cc = ws.cell(row=r, column=c)
-        cc.font = Font(bold=True, color="FFFFFF")
-        cc.fill = VIOLETA if c == col_tv and r == 5 else AZUL
-        cc.alignment = Alignment(horizontal="center")
-    ws.column_dimensions[get_column_letter(col_total)].width = 9
-    ws.column_dimensions[get_column_letter(col_tv)].width = 9
+    for m, c in cols_mes.items():
+        pc = a_pc.get(m)
+        tit = ws.cell(row=4, column=c, value=f"→ {pc}" if pc else "")
+        sub = ws.cell(row=5, column=c, value=MESES[m - 1][:3].upper())
+        for cc in (tit, sub):
+            cc.fill = NARANJA
+            cc.font = Font(bold=True, color="FFFFFF", size=9)
+            cc.alignment = CENTRO
+        ws.column_dimensions[get_column_letter(c)].width = 8
 
-    ws.column_dimensions["A"].width = 12
-    ws.column_dimensions["B"].width = 42
+    for c, etq in ((col_tp, "TOT Part."), (col_tv, "TOT Anim.")):
+        ws.cell(row=4, column=c, value="TOTALES" if c == col_tp else "")
+        cc = ws.cell(row=5, column=c, value=etq)
+        cc.fill = MORADO if c == col_tv else AZUL
+        cc.font = Font(bold=True, color="FFFFFF", size=9)
+        cc.alignment = CENTRO
+        ws.cell(row=4, column=c).fill = AZUL
+        ws.column_dimensions[get_column_letter(c)].width = 10
 
-    cols_p = [get_column_letter(3 + 2 * i) for i in range(len(ses))]
-    cols_v = [get_column_letter(4 + 2 * i) for i in range(len(ses))]
+    # ---- filas de alumnos --------------------------------------------------
+    rescatados = 0
     for i, a in enumerate(alumnos):
         r = 6 + i
-        ws.cell(row=r, column=1, value=int(a["codigo"])).number_format = "0"
+        cod = str(a["codigo"])
+        ws.cell(row=r, column=1, value=int(cod)).number_format = "0"
         ws.cell(row=r, column=2, value=a["nombre"]).font = Font(size=10)
-        for col in range(1, col_tv + 1):
-            cc = ws.cell(row=r, column=col)
-            cc.border = BORDE
-            if col >= 3:
-                cc.alignment = Alignment(horizontal="center")
-        for col, cols in ((col_total, cols_p), (col_tv, cols_v)):
-            cc = ws.cell(row=r, column=col,
-                         value="=" + "+".join(f"N({c}{r})" for c in cols))
+
+        for (s, cp), (_, cv) in zip(cols_p, cols_v):
+            for c, clave in ((cp, "p"), (cv, "v")):
+                v = previo.get(cod, {}).get((s["n"], clave))
+                if v is not None:
+                    ws.cell(row=r, column=c, value=v)
+                    rescatados += 1
+
+        for m, c in cols_mes.items():
+            partes = [f"N({get_column_letter(cc)}{r})"
+                      for s2, cc in cols_p + cols_v if fecha_de(s2).month == m]
+            cc = ws.cell(row=r, column=c, value="=" + "+".join(partes))
             cc.font = Font(bold=True)
-            cc.alignment = Alignment(horizontal="center")
-        if i % 2:
-            for col in range(1, col_tv + 1):
-                ws.cell(row=r, column=col).fill = GRIS
+            cc.fill = AMBAR
+        for c, cols in ((col_tp, cols_p), (col_tv, cols_v)):
+            cc = ws.cell(row=r, column=c,
+                         value="=" + "+".join(f"N({get_column_letter(x)}{r})" for _, x in cols))
+            cc.font = Font(bold=True)
+
+        for c in range(1, ancho_total + 1):
+            cel = ws.cell(row=r, column=c)
+            cel.border = BORDE
+            if c >= 3:
+                cel.alignment = CENTRO
+            if i % 2 and c not in cols_mes.values():
+                cel.fill = GRIS
 
     ultima = 5 + len(alumnos)
-    for col in (col_total, col_tv):
-        rng = f"{get_column_letter(col)}6:{get_column_letter(col)}{ultima}"
+    for c in (col_tp, col_tv):
+        rng = f"{get_column_letter(c)}6:{get_column_letter(c)}{ultima}"
         ws.conditional_formatting.add(rng, CellIsRule(operator="equal", formula=["0"], fill=ROJO))
         ws.conditional_formatting.add(rng, CellIsRule(operator="greaterThan", formula=["0"], fill=VERDE))
 
-    # fila de resumen: cuantos participaron cada dia
     r = ultima + 2
     ws.cell(row=r, column=2, value="Participaron ese día").font = Font(bold=True, italic=True, size=9)
-    for i in range(2 * len(ses)):
-        col = get_column_letter(3 + i)
-        c = ws.cell(row=r, column=3 + i, value=f'=COUNTIF({col}6:{col}{ultima},">0")')
-        c.font = Font(bold=True, size=9)
-        c.alignment = Alignment(horizontal="center")
-        c.fill = AMBAR
+    for _, c in cols_p + cols_v:
+        L = get_column_letter(c)
+        cc = ws.cell(row=r, column=c, value=f'=COUNTIF({L}6:{L}{ultima},">0")')
+        cc.font = Font(bold=True, size=9)
+        cc.alignment = CENTRO
+        cc.fill = AMBAR
 
     ws.freeze_panes = "C6"
-
-    salida = Path(sys.argv[1]) if len(sys.argv) > 1 else RAIZ / "privado" / "Participacion en clase.xlsx"
     salida.parent.mkdir(parents=True, exist_ok=True)
     wb.save(salida)
 
     print(f"[ok] {salida}")
-    print(f"     {len(alumnos)} alumnos x {len(ses)} clases de {resp} antes del parcial")
-    print(f"     sesiones: {', '.join(f'S{s[chr(110)]}' for s in ses)}")
+    print(f"     {len(alumnos)} alumnos x {len(ses)} clases de {resp}")
+    print(f"     subtotales por mes: {', '.join(MESES[m-1] for m in meses)}")
+    if previo:
+        print(f"     CONSERVADOS {rescatados} puntajes ya anotados")
+    else:
+        print("     hoja nueva (no habia puntajes previos)")
     return 0
 
 
